@@ -9,10 +9,15 @@
   [Layer 7]
   
  cfb | bypass normal cf (nosec)
+ 
  uam | bypass under attack mode (uam)
+ 
  cfpro | bypass cf uam, captcha, bfm etc.. (request)
+ 
  cfsoc | bypass cf uam, captcha, bfm etc.. (socket)
+ 
  raw | request attack
+ 
  soc | socket attack
 
  Proxy function will be added soon
