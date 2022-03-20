@@ -6,13 +6,13 @@
  ![ka](https://user-images.githubusercontent.com/87601386/159179117-cc488178-fa98-41e5-96d2-ad05d96235e4.png)
 
 # Methods
- > [Layer 7]
- > cfb | bypass normal cf (nosec)
- > uam | bypass under attack mode (uam)
- > cfpro | bypass cf uam, captcha, bfm etc.. (request)
- > cfsoc | bypass cf uam, captcha, bfm etc.. (socket)
- > raw | request attack
- > soc | socket attack
+  [Layer 7]
+  cfb | bypass normal cf (nosec)
+  uam | bypass under attack mode (uam)
+  cfpro | bypass cf uam, captcha, bfm etc.. (request)
+  cfsoc | bypass cf uam, captcha, bfm etc.. (socket)
+  raw | request attack
+  soc | socket attack
 
  Proxy function will be added soon
 
