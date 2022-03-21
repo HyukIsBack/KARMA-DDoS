@@ -7,6 +7,8 @@ import undetected_chromedriver as webdriver
 from pyvirtualdisplay import Display
 from sys import stdout
 from colorama import Fore, init
+if name != 'nt':
+    from xvfbwrapper import Xvfb
 init(convert=True)
 
 def countdown(t):
