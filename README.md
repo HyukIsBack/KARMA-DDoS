@@ -23,7 +23,7 @@
  Proxy function will be added soon
 
 # Videos
- https://www.youtube.com/watch?v=KVrRC2bxy2s
+ <iframe width="949" height="593" src="https://www.youtube.com/embed/KVrRC2bxy2s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # Contact Developer
  Discord: 승혁#8271
