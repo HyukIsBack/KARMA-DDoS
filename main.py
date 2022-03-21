@@ -212,6 +212,13 @@ def AttackCFPRO(url, until_datetime, scraper):
 #region CFSOC
 
 def LaunchCFSOC(url, th, t):
+	linux = False
+	if name == 'nt':
+		pass
+	else:
+		linux = True
+		disp = Display(size=(100,60))
+		disp.start()
 	options = webdriver.ChromeOptions()
 	options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
 	options.add_argument('--disable-gpu')
@@ -236,6 +243,8 @@ def LaunchCFSOC(url, th, t):
 				pass
 		time.sleep(0.2)
 	driver.quit()
+	if linux:
+		disp.stop()
 	until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
 	threads_count = 0
 
