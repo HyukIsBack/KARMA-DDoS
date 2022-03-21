@@ -449,10 +449,11 @@ def hello():
 	print(Fore.MAGENTA+" [>] "+Fore.WHITE+"Welcome Back, "+namee+"!\n")
 
 if __name__ == '__main__':
-	os.system('title KARMA')
+	global namee
+	namee = 'user'
 	clear()
 	title()
-	hello()
+	#hello()
 	while True:
 		command()
 
