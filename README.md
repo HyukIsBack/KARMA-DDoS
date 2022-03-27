@@ -26,6 +26,20 @@
 
 https://www.youtube.com/watch?v=KVrRC2bxy2s
 
+# Usage on Linux
+
+You must use Python 3.9 or higher.
+1. Install python3 pip
+ cloudscraper, 
+ undetected_chromedriver, 
+ pyvirtualdisplay, 
+ xvfbwrapper
+
+2. Install chrome
+> wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+>
+> apt-get install ./google-chrome-stable_current_amd64.deb
+
 # Contact Developer
  Discord: 승혁#8271
 
