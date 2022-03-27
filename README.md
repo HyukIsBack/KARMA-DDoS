@@ -32,7 +32,7 @@ You must use Python 3.9 or higher.
 1. Install python3 pip
 
 
-2. Install chrome
+2. Install chrome ( Issue #1 , update chrome )
 > wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 >
 > apt-get install ./google-chrome-stable_current_amd64.deb
@@ -41,4 +41,8 @@ You must use Python 3.9 or higher.
  Discord: 승혁#8271
 
 This is for educational
-Tested on Windows 11 21H2 (OS Build 22000.556)
+Tested on:
+ 
+ Windows 11 21H2 (OS Build 22000.556)
+
+ Linux Kali 5.16.0
