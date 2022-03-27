@@ -34,7 +34,7 @@ You must use Python 3.9 or higher.
 1. Install python3 pip
 
 
-2. Install chrome ( Issue #1 , update chrome )
+2. Install chrome ( or update lastest )
 > wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 >
 > apt-get install ./google-chrome-stable_current_amd64.deb
