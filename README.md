@@ -26,6 +26,8 @@
 
 https://www.youtube.com/watch?v=KVrRC2bxy2s
 
+https://www.youtube.com/watch?v=MPKdfhPeLeE
+
 # Usage on Linux
 
 You must use Python 3.9 or higher.
