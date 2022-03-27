@@ -11,8 +11,6 @@
   
  cfb | bypass normal cf (nosec)
  
- uam | bypass under attack mode (uam)
- 
  cfpro | bypass cf uam, captcha, bfm etc.. (request)
  
  cfsoc | bypass cf uam, captcha, bfm etc.. (socket)
