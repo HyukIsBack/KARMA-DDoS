@@ -3,7 +3,7 @@
  ! Don't attack any websites you don't own it !
 
 # Screenshot
- ![ka](https://user-images.githubusercontent.com/87601386/159179117-cc488178-fa98-41e5-96d2-ad05d96235e4.png)
+ ![ka](https://user-images.githubusercontent.com/87601386/160278630-28ed54ef-a7c6-4ef6-9151-6bd44364ad8f.png)
 
 # Methods
   [Layer 7]
