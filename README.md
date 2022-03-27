@@ -1,5 +1,6 @@
 # KARMA DDoS
  DDoS Attack Script with CloudFlare Bypass (UAM, Captcha, etc..)
+ 
  ! Don't attack any websites you don't own it !
 
 # Screenshot
@@ -43,6 +44,7 @@ You must use Python 3.9 or higher.
  Discord: 승혁#8271
 
 This is for educational
+
 Tested on:
  
  Windows 11 21H2 (OS Build 22000.556)
