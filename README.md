@@ -7,14 +7,14 @@
 
 # Methods
 ```sh
-  [Layer 7]<br/>
- - cfb | Bypass normal CF (NoSec)<br/>
- - cfpro | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (request)<br/>
- - cfsoc | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (socket)<br/>
- - raw | Request Attack<br/>
- - soc | Socket Attack<br/>
- - pxraw | Proxy Request Attack<br/>
- - pxsoc | Proxy Socket Attack<br/>
+  [Layer 7]
+ - cfb | Bypass normal CF (NoSec)
+ - cfpro | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (request)
+ - cfsoc | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (socket)
+ - raw | Request Attack
+ - soc | Socket Attack
+ - pxraw | Proxy Request Attack
+ - pxsoc | Proxy Socket Attack
 ```
 
 # Videos
