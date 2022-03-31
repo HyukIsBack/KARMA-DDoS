@@ -17,7 +17,6 @@
 
 # Videos
 
-https://www.youtube.com/watch?v=KVrRC2bxy2s<br/>
 https://www.youtube.com/watch?v=MPKdfhPeLeE
 
 # Usage on Linux
