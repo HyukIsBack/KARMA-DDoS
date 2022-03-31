@@ -30,7 +30,7 @@ You must use Python 3.9 or higher.
 2. Install chrome ( or update lastest )
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - apt-get install ./google-chrome-stable_current_amd64.deb
-```sh
+```
 
 # Contact Developer
  Discord: 승혁#8271<br/>
