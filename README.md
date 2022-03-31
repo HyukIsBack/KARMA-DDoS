@@ -34,7 +34,7 @@ You must use Python 3.9 or higher.
 
 # Contact Developer
 ```sh
- Discord: 승혁#8271<br/>
+ Discord: 승혁#8271
  This is for educational
 ```
 
