@@ -33,9 +33,10 @@ You must use Python 3.9 or higher.
 ```
 
 # Contact Developer
+```sh
  Discord: 승혁#8271<br/>
  This is for educational
-
+```
 
 Tested on:<br/>
  Windows 11 21H2 (OS Build 22000.556)<br/>
