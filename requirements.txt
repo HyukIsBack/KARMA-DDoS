@@ -1,0 +1,6 @@
+requirements.txt
+cloudscraper
+socks
+pysocks
+colorama
+undetected_chromedriver
