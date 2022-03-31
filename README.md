@@ -43,3 +43,8 @@ Tested on:<br/>
  Windows 11 21H2 (OS Build 22000.556)<br/>
  Linux Kali 5.16.0
 
+# Donate ME :)
+ https://paypal.me/hyeokkk?country.x=KR&locale.x=ko_KR<br/>
+ Sponsors can pre-use projects under development<br/>
+ Now Developing : https://www.youtube.com/watch?v=K7r7AlolOvM
+ 
