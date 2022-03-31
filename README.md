@@ -1,5 +1,5 @@
 # KARMA DDoS
- DDoS Attack Script with CloudFlare Bypass (UAM, Captcha, etc..)<br/>
+ DDoS Attack Panel includes CloudFlare Bypass (UAM, CAPTCHA, BFM, etc..)<br/>
  ! Don't attack any websites you don't own it !
 
 # Screenshot
