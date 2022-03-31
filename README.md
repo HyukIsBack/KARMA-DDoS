@@ -6,6 +6,7 @@
 ![kk](https://user-images.githubusercontent.com/87601386/161046871-fa69a88b-71c0-441f-8f28-ddcf562c1810.png)
 
 # Methods
+```sh
   [Layer 7]<br/>
  - cfb | Bypass normal CF (NoSec)<br/>
  - cfpro | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (request)<br/>
@@ -14,13 +15,14 @@
  - soc | Socket Attack<br/>
  - pxraw | Proxy Request Attack<br/>
  - pxsoc | Proxy Socket Attack<br/>
+```
 
 # Videos
 
 https://www.youtube.com/watch?v=MPKdfhPeLeE
 
 # Usage on Linux
-
+```sh
 You must use Python 3.9 or higher.
 1. Install python3 modules
  - pip3 install -r requirements.txt
@@ -28,6 +30,7 @@ You must use Python 3.9 or higher.
 2. Install chrome ( or update lastest )
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - apt-get install ./google-chrome-stable_current_amd64.deb
+```sh
 
 # Contact Developer
  Discord: 승혁#8271<br/>
