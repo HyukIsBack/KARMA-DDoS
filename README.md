@@ -3,10 +3,7 @@
 # KARMA DDoS
  DDoS Attack Panel includes CloudFlare Bypass (UAM, CAPTCHA, BFM, etc..)<br/>
  Don't attack any websites you don't own it<br/>
- 
-<a class="github-button" href="https://github.com/HyukIsBack/KARMA-DDoS" data-color-scheme="no-preference: light_high_contrast; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star HyukIsBack/KARMA-DDoS on GitHub">Star</a>
-<script async defer src="https://buttons.github.io/buttons.js"></script>
- 
+
 </div>
 
 ## Screenshot
