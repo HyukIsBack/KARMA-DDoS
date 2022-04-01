@@ -17,8 +17,9 @@
  - pxraw | Proxy Request Attack
  - pxsoc | Proxy Socket Attack
  
-  [Tools] | Soon..
-  
+  [Tools]
+ - lookup | Soon..
+ - DNS | Soon..
 ```
 
 # Videos
