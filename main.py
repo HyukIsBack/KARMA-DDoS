@@ -484,8 +484,9 @@ def command():
     elif command == "exit":
         exit()
     elif command == "credit":
-        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Developer : Hyuk\n")
-        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"UI Design : Yone\n")
+        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Developer          : Hyuk\n")
+        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"UI Design          : Yone\n")
+        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Methods and tools: : SkyWtkh\n")
     elif command == "cfb":
         stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"URL     : "+Fore.LIGHTGREEN_EX)
         target = input()
