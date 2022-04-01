@@ -16,6 +16,9 @@
  - soc | Socket Attack
  - pxraw | Proxy Request Attack
  - pxsoc | Proxy Socket Attack
+ 
+  [Tools] | Soon..
+  
 ```
 
 # Videos
