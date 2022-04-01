@@ -35,8 +35,8 @@
  - pxsoc | Proxy Socket Attack
  
   [Tools]
- - lookup | Soon..
- - DNS | Soon..
+ - lookup | IP Address Lookup  (soon..)
+ - DNS    | Website DNS Record (soon..)
 ```
 
 ## Videos
