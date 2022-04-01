@@ -12,8 +12,10 @@
  - pxcfb | Bypass CF attack with proxy
  - cfpro | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (request)
  - cfsoc | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (socket)
- - raw | Request Attack
- - soc | Socket Attack
+ - raw   | Request Attack
+ - post  | Post Request Attack
+ - head  | Head Request Attack
+ - soc   | Socket Attack
  - pxraw | Proxy Request Attack
  - pxsoc | Proxy Socket Attack
  
