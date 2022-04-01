@@ -23,7 +23,7 @@
 ## Methods
 ```sh
   [Layer 7]
- - cfb | Bypass CF attack
+ - cfb.  | Bypass CF attack
  - pxcfb | Bypass CF attack with proxy
  - cfpro | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (request)
  - cfsoc | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (socket)
