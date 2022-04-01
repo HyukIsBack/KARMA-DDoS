@@ -1,9 +1,24 @@
 <div align=center>
  
 # KARMA DDoS
+ <p>
+ <img src=https://img.shields.io/github/stars/HyukIsBack/KARMA-DDoS?color=%23DF0067&style=for-the-badge/>&nbsp;
+ <img src=https://img.shields.io/github/forks/HyukIsBack/KARMA-DDoS?color=%239999FF&style=for-the-badge/>&nbsp;
+ <img src=https://img.shields.io/github/license/HyukIsBack/KARMA-DDoS?color=%23E8E8E8&style=for-the-badge/>&nbsp;
+ 
+</p>
  DDoS Attack Panel includes CloudFlare Bypass (UAM, CAPTCHA, BFM, etc..)<br/>
  Don't attack any websites you don't own it<br/>
+ 
+ 
 
+## Language</br>
+ 
+ <img src="https://img.shields.io/badge/Python-FFDD00?style=for-the-badge&logo=python&logoColor=blue"/></br></br>
+
+ 
+ 
+ 
 </div>
 
 ## Screenshot
