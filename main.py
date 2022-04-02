@@ -600,7 +600,7 @@ def clear():
         _ = system('clear') 
 
 def title():
-    sys.stdout.write("\x1b]2;Karma | User: root\x07")
+    #sys.stdout.write("\x1b]2;Karma | User: root\x07")
     stdout.write("                                                                                          \n")
     stdout.write("                                 "+Fore.LIGHTMAGENTA_EX+"╦╔═╔═╗╦═╗╔╦╗╔═╗                 \n")
     stdout.write("                                 "+Fore.LIGHTRED_EX    +"╠╩╗╠═╣╠╦╝║║║╠═╣                 \n")
