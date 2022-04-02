@@ -10,8 +10,7 @@
  DDoS Attack Panel includes CloudFlare Bypass (UAM, CAPTCHA, BFM, etc..)<br/><br/>
  Don't attack any websites you don't own it<br/>
  This was created for educational purposes<br/>
- All responsibilities and disadvantages is for the user by using this.
- 
+ All responsibilities and disadvantages of using this program is for the user.
  
 
 ## Language</br>
