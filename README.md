@@ -36,8 +36,9 @@
  - pxsoc | Proxy Socket Attack
  
   [Tools]
- - lookup | IP Address Lookup  (soon..)
- - DNS    | Website DNS Record (soon..)
+ - Reversedns | IP Address Lookup  
+ - Dnslookup  | Website DNS Record 
+ - Geoip      | Geo IP Address Lookup
 ```
 
 ## Videos
