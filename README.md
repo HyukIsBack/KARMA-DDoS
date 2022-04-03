@@ -64,7 +64,3 @@ You must use Python 3.9 or higher.
 Tested on:<br/>
  - Windows 11 21H2 (OS Build 22000.556)
  - Linux Kali 5.16.0
-
-## Donate ME :)
- https://paypal.me/hyeokkk?country.x=KR&locale.x=ko_KR
- 
