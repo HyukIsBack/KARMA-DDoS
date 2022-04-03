@@ -553,7 +553,7 @@ def title():
     stdout.write("             \x1b[38;2;255;0;0m╔═════════╩═════════════════════════════════╩═════════╗\n")
     stdout.write("             \x1b[38;2;255;0;0m║ \x1b[38;2;0;255;189m        Welcome To The Main Screen Of Karma\x1b[38;2;255;0;0m         ║\n")
     stdout.write("             \x1b[38;2;255;0;0m║ \x1b[38;2;0;255;189m          Type [help] to see the Commands    \x1b[38;2;255;0;0m       ║\n")
-    stdout.write("             \x1b[38;2;255;0;0m║ \x1b[38;2;0;255;189m         Contact Dev - Telegram @zjfoq394   \x1b[38;2;255;0;0m       ║\n")
+    stdout.write("             \x1b[38;2;255;0;0m║ \x1b[38;2;0;255;189m         Contact Dev - Telegram @zjfoq394   \x1b[38;2;255;0;0m        ║\n")
     stdout.write("             \x1b[38;2;255;0;0m╚═════════════════════════════════════════════════════╝\n")
     stdout.write("\n")
 
