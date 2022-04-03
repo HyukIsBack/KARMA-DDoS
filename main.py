@@ -37,6 +37,7 @@ def countdown(t):
             stdout.write("\r "+Fore.MAGENTA+"[*]"+Fore.WHITE+" Attack Done !                                   \n")
             return
 
+#region get
 def get_proxies():
     global proxies
     if not os.path.exists("./proxy.txt"):
@@ -90,6 +91,7 @@ def get_info():
     stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"TIME(s) "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
     t = input()
     return target, thread, t
+#endregion
 
 #region METHOD
 
