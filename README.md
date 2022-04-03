@@ -2,9 +2,9 @@
  
 # KARMA DDoS
  <p>
- <img src=https://img.shields.io/github/stars/HyukIsBack/KARMA-DDoS?color=%23DF0067&style=for-the-badge/>&nbsp;
- <img src=https://img.shields.io/github/forks/HyukIsBack/KARMA-DDoS?color=%239999FF&style=for-the-badge/>&nbsp;
- <img src=https://img.shields.io/github/license/HyukIsBack/KARMA-DDoS?color=%23E8E8E8&style=for-the-badge/>&nbsp;
+ <img src="https://img.shields.io/github/stars/HyukIsBack/KARMA-DDoS?color=%23DF0067&style=for-the-badge"/> &nbsp;
+ <img src="https://img.shields.io/github/forks/HyukIsBack/KARMA-DDoS?color=%239999FF&style=for-the-badge"/> &nbsp;
+ <img src="https://img.shields.io/github/license/HyukIsBack/KARMA-DDoS?color=%23E8E8E8&style=for-the-badge"/> &nbsp;
  
 </p>
  DDoS Attack Panel includes CloudFlare Bypass (UAM, CAPTCHA, BFM, etc..)<br/><br/>
@@ -19,7 +19,7 @@
 </div>
 
 ## Screenshot
-![kk](https://user-images.githubusercontent.com/87601386/161046871-fa69a88b-71c0-441f-8f28-ddcf562c1810.png)
+![lk](https://user-images.githubusercontent.com/87601386/161434262-e5883715-c526-4f16-857e-5474ec45211d.png)
 
 ## Methods
 ```sh
@@ -40,6 +40,7 @@
  - Dnslookup  | Website DNS Record 
  - Geoip      | Geo IP Address Lookup
 ```
+
 
 ## Videos
 [![](https://user-images.githubusercontent.com/87601386/161339371-b6dfaa8f-1cf2-41d1-85c1-d82cdd98def1.png)](https://www.youtube.com/watch?v=MPKdfhPeLeE)
