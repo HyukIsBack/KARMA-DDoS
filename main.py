@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-from ast import arguments
 from os import system, name
 import os, threading, requests, cloudscraper, datetime, time, socket, socks, ssl, random
-from aiohttp import request
 from urllib.parse import urlparse
 from requests.cookies import RequestsCookieJar
 import undetected_chromedriver as webdriver
