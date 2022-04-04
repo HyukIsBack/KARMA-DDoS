@@ -565,15 +565,6 @@ def command():
         timer.join()
 
 #region TOOLS        
-    elif command == "dnslookup":
-        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"DOMAIN "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
-        target = input()
-        try:
-            r = requests.get(f"https://api.hackertarget.com/reversedns/?q={target}")
-            print(r.text)
-        except:
-            print('An error has occurred while sending the request to the API!')
-   
     elif command == "subnet":
         stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
         target = input()
@@ -581,10 +572,9 @@ def command():
             r = requests.get(f"https://api.hackertarget.com/subnetcalc/?q={target}")
             print(r.text)
         except:
-            print('An error has occurred while sending the request to the API!')       
+            print('An error has occurred while sending the request to the API!')                   
             
-            
-    elif command == "reversedns":
+    elif command == "dns":
         stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP/DOMAIN "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
         target = input()
         try:
@@ -626,8 +616,7 @@ def func():
     #stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"udp        "+Fore.RED+": "+Fore.WHITE+"Strong UDP attack (not supported)\n")
 
     stdout.write(Fore.RED+" \n[\x1b[38;2;0;255;189mTOOLS"+Fore.RED+"]\n")
-    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"dnslookup  "+Fore.RED+": "+Fore.WHITE+"Classic DNS Lookup\n")
-    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"reversedns "+Fore.RED+": "+Fore.WHITE+"Reverse DNS Lookup\n")
+    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"dns        "+Fore.RED+": "+Fore.WHITE+"Classic DNS Lookup\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"geoip      "+Fore.RED+": "+Fore.WHITE+"Geo IP Address Lookup\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"subnet     "+Fore.RED+": "+Fore.WHITE+"Subnet IP Address Lookup\n")
     
@@ -642,5 +631,4 @@ if __name__ == '__main__':
     while True:
         command()
 
-                      
-                      
+                               
