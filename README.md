@@ -39,6 +39,7 @@
  - Reversedns | IP Address Lookup  
  - Dnslookup  | Website DNS Record 
  - Geoip      | Geo IP Address Lookup
+ - Subnet     | Subnet IP Address Lookup
  
  - NEW UI + ATTACK MENU (SOON...)
 ```
