@@ -563,6 +563,8 @@ def command():
         timer = threading.Thread(target=countdown, args=(t,))
         timer.start()
         timer.join()
+
+#region TOOLS        
     elif command == "dnslookup":
         stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"DOMAIN "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
         target = input()
@@ -571,6 +573,17 @@ def command():
             print(r.text)
         except:
             print('An error has occurred while sending the request to the API!')
+   
+    elif command == "subnet":
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
+        target = input()
+        try:
+            r = requests.get(f"https://api.hackertarget.com/subnetcalc/?q={target}")
+            print(r.text)
+        except:
+            print('An error has occurred while sending the request to the API!')       
+            
+            
     elif command == "reversedns":
         stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP/DOMAIN "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
         target = input()
@@ -579,6 +592,7 @@ def command():
             print(r.text)
         except:
             print('An error has occurred while sending the request to the API!')
+            
     elif command == "geoip":
         stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
         target = input()
@@ -589,7 +603,8 @@ def command():
             print('An error has occurred while sending the request to the API!')
     else:
         stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"Unknown command. 'help' or '?' to see all commands.\n")
-        #stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"Unknown command. 'help' or '?' to see all commands.\n")
+        #stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"Unknown command. 'help' or '?' to see all commands.\n")      
+#endregion
 
 def func():
     stdout.write(Fore.RED+" [\x1b[38;2;0;255;189mLAYER 7"+Fore.RED+"]\n")
@@ -614,6 +629,7 @@ def func():
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"dnslookup  "+Fore.RED+": "+Fore.WHITE+"Classic DNS Lookup\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"reversedns "+Fore.RED+": "+Fore.WHITE+"Reverse DNS Lookup\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"geoip      "+Fore.RED+": "+Fore.WHITE+"Geo IP Address Lookup\n")
+    stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"subnet     "+Fore.RED+": "+Fore.WHITE+"Subnet IP Address Lookup\n")
     
     stdout.write(Fore.RED+" \n[\x1b[38;2;0;255;189mOTHER"+Fore.RED+"]\n")
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"clear/cls  "+Fore.RED+": "+Fore.WHITE+"Clear console\n")
