@@ -398,7 +398,7 @@ def LaunchSKY(url, timer):
             s = ctx.wrap_socket(s, server_hostname=urlparse(url).netloc)
             s.send(str.encode(req))
             try:
-                for i in range(80000):
+                for i in range(100):
                     s.send(str.encode(req))
                     s.send(str.encode(req))
             except:
