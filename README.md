@@ -64,7 +64,3 @@ You must use Python 3.9 or higher.
 ```sh
  Telegram: @zjfoq394
 ```
-
-Tested on:<br/>
- - Windows 11 21H2 (OS Build 22000.556)
- - Linux Kali 5.16.0
