@@ -72,16 +72,16 @@ def get_cookie(url):
         time.sleep(1)
     driver.quit()
     return False
-
+##############################################################################################
 def get_info():
-    stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"URL     "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
+    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"URL     "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
     target = input()
-    stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"THREAD  "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
+    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"THREAD  "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
     thread = input()
-    stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"TIME(s) "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
+    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"TIME(s)  "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
     t = input()
     return target, thread, t
-#endregion
+##############################################################################################
 
 #region METHOD
 
@@ -446,23 +446,75 @@ def clear():
         system('cls')
     else: 
         system('clear')
-
-def title():
-    #sys.stdout.write("\x1b]2;Karma | User: root\x07")
-    stdout.write("                                                                                          \n")
-    stdout.write("                                 "+Fore.LIGHTMAGENTA_EX+"╦╔═╔═╗╦═╗╔╦╗╔═╗                 \n")
-    stdout.write("                                 "+Fore.LIGHTRED_EX    +"╠╩╗╠═╣╠╦╝║║║╠═╣                 \n")
-    stdout.write("                                 "+Fore.RED            +"╩ ╩╩ ╩╩╚═╩ ╩╩ ╩                \n")
-    stdout.write("             "+Fore.RED            +"        ══╦═════════════════════════════════╦══\n")
-    stdout.write("             \x1b[38;2;255;0;0m╔═════════╩═════════════════════════════════╩═════════╗\n")
-    stdout.write("             \x1b[38;2;255;0;0m║ \x1b[38;2;0;255;189m        Welcome To The Main Screen Of Karma\x1b[38;2;255;0;0m         ║\n")
-    stdout.write("             \x1b[38;2;255;0;0m║ \x1b[38;2;0;255;189m          Type [help] to see the Commands    \x1b[38;2;255;0;0m       ║\n")
-    stdout.write("             \x1b[38;2;255;0;0m║ \x1b[38;2;0;255;189m         Contact Dev - Telegram @zjfoq394   \x1b[38;2;255;0;0m        ║\n")
-    stdout.write("             \x1b[38;2;255;0;0m╚═════════════════════════════════════════════════════╝\n")
+##############################################################################################
+def help():
+    stdout.write("\x1b[38;2;0;236;250m════════════════════════╗\n")
+    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"layer7     \n")
+    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"layer4 (Soon..)     \n")
+    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"tools      \n")
+    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"credit    \n")   
+    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"exit       \n")
+    stdout.write("\x1b[38;2;0;236;250m════════════════════════╝\n")
     stdout.write("\n")
-
+##############################################################################################
+def credit():
+    stdout.write("\x1b[38;2;0;236;250m════════════════════════╗\n")
+    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"Developer "+Fore.RED+": \x1b[38;2;0;255;189mHyuk\n")
+    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"UI Design "+Fore.RED+": \x1b[38;2;0;255;189mYone不\n")
+    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"Methods/Tools "+Fore.RED+": \x1b[38;2;0;255;189mSkyWtkh\n")
+    stdout.write("\x1b[38;2;0;236;250m════════════════════════╝\n")
+    stdout.write("\n")    
+##############################################################################################
+def layer7():
+    clear()
+    stdout.write("                                                                                         \n")
+    stdout.write("                                 "+Fore.LIGHTWHITE_EX   +"╦  ╔═╗╦ ╦╔═╗╦═╗ ══╗             \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"║  ╠═╣╚╦╝║╣ ╠╦╝  ╔╝             \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"╩═╝╩ ╩ ╩ ╚═╝╩╚═  ╩              \n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"        ══╦═════════════════════════════════╦══\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╔═════════╩═════════════════════════════════╩═════════╗\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfb   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF Attack                          "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxcfb "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF Attack With Proxy               "+Fore.LIGHTCYAN_EX+"║\n")                  
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfpro "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF UAM, CAPTCHA, BFM (request)     "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfsoc "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF UAM, CAPTCHA, BFM (socket)      "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"raw   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Request Attack                            "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"post  "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Post Request Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"head  "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Head Request Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"soc   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Socket Attack                             "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxraw "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Proxy Request Attack                      "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxsoc "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Proxy Socket Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╚═════════════════════════════════════════════════════╝\n") 
+    stdout.write("\n")
+##############################################################################################
+def tools():
+    clear()
+    stdout.write("                                                                                         \n")
+    stdout.write("                                 "+Fore.LIGHTWHITE_EX   +"╔╦╗╔═╗╔═╗╦  ╔═╗             \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX    +" ║ ║ ║║ ║║  ╚═╗             \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX    +" ╩ ╚═╝╚═╝╩═╝╚═╝             \n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"        ══╦═════════════════════════════════╦══\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╔═════════╩═════════════════════════════════╩═════════╗\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"geoip "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Geo IP Address Lookup"+Fore.LIGHTCYAN_EX+"                     ║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"dns   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Classic DNS Lookup   "+Fore.LIGHTCYAN_EX+"                     ║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"subnet"+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Subnet IP Address Lookup   "+Fore.LIGHTCYAN_EX+"               ║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╚═════════════════════════════════════════════════════╝\n") 
+    stdout.write("\n")
+##############################################################################################
+def title():
+    stdout.write("                                                                                          \n")
+    stdout.write("                                 "+Fore.LIGHTWHITE_EX  +"╦╔═╔═╗╦═╗╔╦╗╔═╗                 \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX   +"╠╩╗╠═╣╠╦╝║║║╠═╣                 \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX   +"╩ ╩╩ ╩╩╚═╩ ╩╩ ╩                \n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"        ══╦═════════════════════════════════╦══\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX+"╔═════════╩═════════════════════════════════╩═════════╗\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX+"║ "+Fore.LIGHTWHITE_EX   +"        Welcome To The Main Screen Of Karma  "+Fore.LIGHTCYAN_EX  +"       ║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX+"║ "+Fore.LIGHTWHITE_EX   +"          Type [help] to see the Commands    "+Fore.LIGHTCYAN_EX +"       ║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX+"║ "+Fore.LIGHTWHITE_EX   +"         Contact Dev - Telegram @zjfoq394   "+Fore.LIGHTCYAN_EX +"        ║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX+"╚═════════════════════════════════════════════════════╝\n")
+    stdout.write("\n")
+##############################################################################################
 def command():
-    stdout.write(Fore.LIGHTMAGENTA_EX+"╔═══"+Fore.MAGENTA+"[""root"+Fore.LIGHTGREEN_EX+"@"+Fore.MAGENTA+"Karma"+Fore.MAGENTA+"]"+Fore.LIGHTMAGENTA_EX+"\n╚══\x1b[38;2;0;255;189m> "+Fore.WHITE)
+    stdout.write(Fore.LIGHTCYAN_EX+"╔═══"+Fore.LIGHTCYAN_EX+"[""root"+Fore.LIGHTGREEN_EX+"@"+Fore.LIGHTCYAN_EX+"Karma"+Fore.CYAN+"]"+Fore.LIGHTCYAN_EX+"\n╚══\x1b[38;2;0;255;189m> "+Fore.WHITE)
     command = input()
     if command == "cls":
         clear()
@@ -471,15 +523,21 @@ def command():
         clear()
         title()
     elif command == "?":
-        func()
+        help()
     elif command == "help":
-        func()
+        help()
+    elif command == "credit":
+        credit()        
+    elif command == "layer7":
+        layer7()
+    elif command == "tools":
+        tools()        
+    elif command == "all":
+        layer7()
+        credit()
+        tools()                   
     elif command == "exit":
         exit()
-    elif command == "credit":
-        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Developer          "+Fore.RED+": \x1b[38;2;0;255;189mHyuk\n")
-        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"UI Design          "+Fore.RED+": \x1b[38;2;0;255;189mYone\n")
-        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Methods And Tools  "+Fore.RED+": \x1b[38;2;0;255;189mSkyWtkh\n")
     elif command == "cfb":
         target, thread, t = get_info()
         timer = threading.Thread(target=countdown, args=(t,))
@@ -564,9 +622,9 @@ def command():
         timer.start()
         timer.join()
 
-#region TOOLS        
+##############################################################################################     
     elif command == "subnet":
-        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
         target = input()
         try:
             r = requests.get(f"https://api.hackertarget.com/subnetcalc/?q={target}")
@@ -575,7 +633,7 @@ def command():
             print('An error has occurred while sending the request to the API!')                   
             
     elif command == "dns":
-        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP/DOMAIN "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP/DOMAIN "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
         target = input()
         try:
             r = requests.get(f"https://api.hackertarget.com/reversedns/?q={target}")
@@ -584,7 +642,7 @@ def command():
             print('An error has occurred while sending the request to the API!')
             
     elif command == "geoip":
-        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP "+Fore.RED+": "+Fore.LIGHTGREEN_EX)
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"IP "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
         target = input()
         try:
             r = requests.get(f"https://api.hackertarget.com/geoip/?q={target}")
@@ -592,9 +650,8 @@ def command():
         except:
             print('An error has occurred while sending the request to the API!')
     else:
-        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"Unknown command. 'help' or '?' to see all commands.\n")
-        #stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"Unknown command. 'help' or '?' to see all commands.\n")      
-#endregion
+        stdout.write(Fore.MAGENTA+" [>] "+Fore.WHITE+"Unknown command. type 'help' to see all commands.\n")  
+##############################################################################################   
 
 def func():
     stdout.write(Fore.RED+" [\x1b[38;2;0;255;189mLAYER 7"+Fore.RED+"]\n")
