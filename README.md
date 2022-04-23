@@ -18,8 +18,8 @@
  <img src="https://img.shields.io/badge/Python-FFDD00?style=for-the-badge&logo=python&logoColor=blue"/></br>
 </div>
 
-## Screenshot
-![lk](https://user-images.githubusercontent.com/87601386/161434262-e5883715-c526-4f16-857e-5474ec45211d.png)
+## Menu
+![image](https://user-images.githubusercontent.com/96109135/164877955-0f6c5a9d-bd27-42f9-9612-1da1a915e901.png)
 
 ## Methods
 ```sh
