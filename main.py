@@ -515,6 +515,7 @@ def clear():
         system('clear')
 ##############################################################################################
 def help():
+    clear()    
     stdout.write("                                                                                         \n")
     stdout.write("                                 "+Fore.LIGHTWHITE_EX   +"  ╦ ╦╔═╗╦  ╔═╗             \n")
     stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"  ╠═╣║╣ ║  ╠═╝             \n")
