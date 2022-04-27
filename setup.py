@@ -1,6 +1,14 @@
 import os
-c = input("Choose your environment: [0] pip / [1] pip3 : ")
 
+print("""
+\x1b[38;2;255;20;147m╦╔═ ╔═╗ ╦═╗ ╔╦╗ ╔═╗
+\x1b[38;2;255;20;147m╠╩╗ ╠═╣ ╠╦╝ ║║║ ╠═╣
+\x1b[38;2;255;20;147m╩ ╩ ╩ ╩ ╩╚═ ╩ ╩ ╩ ╩\x1b[38;2;0;255;58m>(setup)
+""") 
+
+print("""[0] pip\n[1] pip3\nWhich one do you use?""")
+
+c = input(">>>: ")
 if c == "0":
     os.system("pip install cloudscraper")
     os.system("pip install socks")
