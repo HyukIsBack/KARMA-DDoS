@@ -41,15 +41,13 @@
  - pxsoc   | Proxy Socket Attack
  
   [Layer 4]
-  -udp | simple udp flood
-  -tcp | simple tcp flood
+  -udp | UDP Attack
+  -tcp | TCP Attack
   
   [Tools]
  - Dns        | Classic DNS Lookup
  - Geoip      | Geo IP Address Lookup
  - Subnet     | Subnet IP Address Lookup
- 
- - Next Update Attack Menu And L4 Methods (SOON...)
 ```
 
 ## Videos
