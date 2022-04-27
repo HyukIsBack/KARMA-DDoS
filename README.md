@@ -55,11 +55,11 @@
 ```sh
 You must use Python 3.9 or higher.
 1. Install python3 modules
- - pip3 install -r requirements.txt
+ - python3 setup.py
               OR
- - pip install -r requirements.txt
+ - pip3 install -r requirements.txt
 
-2. Install chrome ( or update lastest )
+2. Install chrome ( or update latest )
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - apt-get install ./google-chrome-stable_current_amd64.deb
 ```
