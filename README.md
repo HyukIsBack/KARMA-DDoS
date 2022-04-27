@@ -25,16 +25,20 @@
 
 ```sh
   [Layer 7]
- - cfb   | Bypass CF attack
- - pxcfb | Bypass CF attack with proxy
- - cfpro | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (request)
- - cfsoc | Bypass CF UAM(Under Attack Mode), CAPTCHA, BFM(Bot Fight Mode) etc.. (socket)
- - raw   | Request Attack
- - post  | Post Request Attack
- - head  | Head Request Attack
- - soc   | Socket Attack
- - pxraw | Proxy Request Attack
- - pxsoc | Proxy Socket Attack
+ - cfb     | Bypass CF attack
+ - pxcfb   | Bypass CF attack with proxy
+ - cfreq   | Bypass CF UAM, CAPTCHA, BFM, etc,, with request
+ - cfsoc   | Bypass CF UAM, CAPTCHA, BFM, etc,, with socket
+ - pxsky   | Bypass Google Project Shield, Vshield, DDoS Guard Free, CF NoSec With Proxy
+ - sky     | Sky method without proxy
+ - http2   | HTTP 2.0 Request Attack 
+ = pxhttp2 | HTTP 2.0 Request Attack With Proxy
+ - get     | Get  Request Attack
+ - post    | Post Request Attack
+ - head    | Head Request Attack
+ - soc     | Socket Attack
+ - pxraw   | Proxy Request Attack
+ - pxsoc   | Proxy Socket Attack
  
   [Layer 4]
   -udp | simple udp flood
@@ -53,15 +57,26 @@
 
 ## Usage on Linux
 ```sh
-You must use Python 3.9 or higher.
-1. Install python3 modules
- - python3 setup.py
-              OR
- - pip3 install -r requirements.txt
+You must use Python 3.9 or higher
 
-2. Install chrome ( or update latest )
-- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-- apt-get install ./google-chrome-stable_current_amd64.deb
+git clone https://github.com/HyukIsBack/KARMA-DDoS.git
+
+Install Python3 modules
+ - pip3 install -r requirements.txt  or  pip install -r requirements.txt
+Install Chrome (or update it lastest version)
+ - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+ - apt-get install ./google-chrome-stable_current_amd64.deb
+
+OR
+ - python3 setup.py
+
+```
+
+## Example
+```sh
+Use DDoS Panel   : python3 main.py
+Use command line : python3 main.py <method> <target> <thread> <time>
+      └──────────> python3 main.py cfb https://example.com 100 30
 ```
 
 ## Contact Developer
