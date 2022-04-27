@@ -3,3 +3,4 @@ socks
 pysocks
 colorama
 undetected_chromedriver
+httpx

