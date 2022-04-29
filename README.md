@@ -41,13 +41,13 @@
  - pxsoc   | Proxy Socket Attack
  
   [Layer 4]
-  -udp | UDP Attack
-  -tcp | TCP Attack
+  -udp     | UDP Attack
+  -tcp     | TCP Attack
   
   [Tools]
- - Dns        | Classic DNS Lookup
- - Geoip      | Geo IP Address Lookup
- - Subnet     | Subnet IP Address Lookup
+ - Dns     | Classic DNS Lookup
+ - Geoip   | Geo IP Address Lookup
+ - Subnet  | Subnet IP Address Lookup
 ```
 
 ## Videos
