@@ -33,6 +33,8 @@
  - sky     | Sky method without proxy
  - http2   | HTTP 2.0 Request Attack 
  = pxhttp2 | HTTP 2.0 Request Attack With Proxy
+ - spoof   | Spoof Attasck
+ - pxspoof | Spoof Attack with Proxy
  - get     | Get  Request Attack
  - post    | Post Request Attack
  - head    | Head Request Attack
