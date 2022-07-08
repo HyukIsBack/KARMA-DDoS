@@ -78,8 +78,3 @@ Use DDoS Panel   : python3 main.py
 Use command line : python3 main.py <method> <target> <thread> <time>
       └──────────> python3 main.py cfb https://example.com 100 30
 ```
-
-## Contact Developer
-```sh
- Telegram: @zjfoq394
-```
